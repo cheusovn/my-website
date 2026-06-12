@@ -1,0 +1,15 @@
+{
+  "name": "TRUE Ai Academy",
+  "short_name": "TRUE Ai",
+  "icons": [
+    {
+      "src": "images/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#00ff88",
+  "background_color": "#030f09",
+  "display": "standalone"
+}
