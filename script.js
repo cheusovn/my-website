@@ -278,6 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.fromTo(el,
           { x: -54, opacity: 0 },
           { x: 0, opacity: 1, duration: .8, ease: 'power3.out', scrollTrigger: st });
+      } else if (el.classList.contains('step')) {
+        gsap.fromTo(el,
+          { y: 54, opacity: 0, scale: .95 },
+          { y: 0, opacity: 1, scale: 1, duration: .9, ease: 'power3.out', scrollTrigger: st });
+      } else if (el.classList.contains('guarantee__card')) {
+        gsap.fromTo(el,
+          { y: 50, opacity: 0, scale: .97 },
+          { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', scrollTrigger: st });
       } else if (el.classList.contains('review') || el.classList.contains('pain-card')) {
         gsap.fromTo(el,
           { y: 56, opacity: 0, scale: .94, rotateZ: gsap.utils.random(-2, 2) },
@@ -503,5 +511,107 @@ document.addEventListener('DOMContentLoaded', () => {
       onLeaveBack: () => gsap.to(stickyCta, { opacity: 1, pointerEvents: 'auto', duration: .3 }),
     });
   }
+
+  /* ==========================================================
+     18. SOCIAL PROOF TOAST NOTIFICATIONS
+  ========================================================== */
+  const toastContainer = document.getElementById('toastContainer');
+  if (toastContainer && !reduceMotion) {
+    const toastData = [
+      { name: 'Алексей', city: 'Москва', action: 'только что начал курс', initials: 'АМ' },
+      { name: 'Мария', city: 'Санкт-Петербург', action: 'создала первую AI-карточку 🎨', initials: 'МС' },
+      { name: 'Дмитрий', city: 'Екатеринбург', action: 'получил заказ на 1 800 ₽ 💸', initials: 'ДЕ' },
+      { name: 'Анна', city: 'Казань', action: 'записалась на 2 дня бесплатно', initials: 'АК' },
+      { name: 'Сергей', city: 'Новосибирск', action: 'сделал первое AI-видео 🎬', initials: 'СН' },
+      { name: 'Елена', city: 'Краснодар', action: 'забронировала место на курс', initials: 'ЕК' },
+      { name: 'Иван', city: 'Ростов-на-Дону', action: 'получил заказ на 2 500 ₽ 💸', initials: 'ИР' },
+      { name: 'Ольга', city: 'Уфа', action: 'присоединилась к курсу', initials: 'ОУ' },
+      { name: 'Николай', city: 'Пермь', action: 'сделал карточку для маркетплейса', initials: 'НП' },
+      { name: 'Татьяна', city: 'Воронеж', action: 'начала зарабатывать на AI ✨', initials: 'ТВ' },
+      { name: 'Артём', city: 'Самара', action: 'прошёл 7 дней курса', initials: 'АС' },
+      { name: 'Виктория', city: 'Нижний Новгород', action: 'получила первый заказ', initials: 'ВН' },
+    ];
+
+    let toastIndex = Math.floor(Math.random() * toastData.length);
+    let activeToast = null;
+
+    const showToast = () => {
+      if (activeToast) {
+        activeToast.classList.remove('toast--show');
+        activeToast.classList.add('toast--hide');
+        setTimeout(() => { if (activeToast) activeToast.remove(); }, 500);
+      }
+
+      const data = toastData[toastIndex % toastData.length];
+      toastIndex++;
+
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      const mins = Math.floor(Math.random() * 8) + 1;
+
+      toast.innerHTML = `
+        <div class="toast__avatar">${data.initials.charAt(0)}</div>
+        <div class="toast__body">
+          <div class="toast__name">${data.name} из ${data.city}</div>
+          <div class="toast__action">${data.action}</div>
+        </div>
+        <div class="toast__time">${mins} мин</div>
+      `;
+
+      toastContainer.appendChild(toast);
+      activeToast = toast;
+
+      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('toast--show')));
+
+      const hideTimeout = setTimeout(() => {
+        toast.classList.remove('toast--show');
+        toast.classList.add('toast--hide');
+        setTimeout(() => { if (toast.parentNode) toast.remove(); if (activeToast === toast) activeToast = null; }, 500);
+      }, 5500);
+
+      toast.addEventListener('click', () => {
+        clearTimeout(hideTimeout);
+        toast.classList.remove('toast--show');
+        toast.classList.add('toast--hide');
+        setTimeout(() => { if (toast.parentNode) toast.remove(); if (activeToast === toast) activeToast = null; }, 500);
+      });
+    };
+
+    const scheduleNext = () => {
+      const delay = Math.random() * 18000 + 22000;
+      setTimeout(() => { showToast(); scheduleNext(); }, delay);
+    };
+
+    setTimeout(() => { showToast(); scheduleNext(); }, 5000);
+  }
+
+  /* ==========================================================
+     19. LIVE VIEWER COUNT SIMULATION
+  ========================================================== */
+  const viewerEl = document.getElementById('viewerCount');
+  if (viewerEl && !reduceMotion) {
+    let viewers = 200 + Math.floor(Math.random() * 120);
+    viewerEl.textContent = viewers;
+
+    const updateViewers = () => {
+      const delta = Math.floor(Math.random() * 9) - 4;
+      viewers = Math.max(160, Math.min(450, viewers + delta));
+      viewerEl.textContent = viewers;
+    };
+
+    setInterval(updateViewers, 9000 + Math.random() * 6000);
+  }
+
+  /* ==========================================================
+     20. VALUE STACK — строки появляются по очереди (нет .reveal — анимируем здесь)
+  ========================================================== */
+  gsap.utils.toArray('.value-stack__row, .value-stack__total, .value-stack__free').forEach((row, i) => {
+    gsap.fromTo(row,
+      { x: -30, opacity: 0 },
+      { x: 0, opacity: 1, duration: .5, ease: 'power2.out',
+        scrollTrigger: { trigger: row, start: 'top 94%', toggleActions: 'play none none none' },
+        delay: i * .06,
+      });
+  });
 
 });
