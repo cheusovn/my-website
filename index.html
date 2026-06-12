@@ -56,6 +56,7 @@
         <div class="hero__eyebrow">
           <span class="pill pill--live"><i class="live-dot"></i>Набор открыт · места ограничены</span>
           <span class="pill pill--dim">300+ выпускников</span>
+          <span class="pill pill--viewers"><i class="live-dot live-dot--red"></i><span id="viewerCount">247</span> смотрят сейчас</span>
         </div>
 
         <h1>Первое AI‑видео —<br><em>за 7 дней.</em><br>Первые деньги — сразу.</h1>
@@ -114,6 +115,40 @@
     </div>
   </section>
 
+  <!-- ═══════════════ КАК ЭТО РАБОТАЕТ ═══════════════ -->
+  <section class="steps">
+    <div class="container">
+      <p class="section-eyebrow reveal">Как это работает</p>
+      <h2 class="reveal">Три шага до <em>первых денег</em></h2>
+      <div class="steps__grid">
+        <div class="step reveal">
+          <div class="step__num">01</div>
+          <div class="step__icon">🚀</div>
+          <h4>Регистрируешься бесплатно</h4>
+          <p>Нажимаешь кнопку — бот в Telegram открывает полный доступ через 30 секунд. Без карты и без обязательств.</p>
+        </div>
+        <div class="step__connector">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 16H28M28 16L20 8M28 16L20 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="step reveal">
+          <div class="step__num">02</div>
+          <div class="step__icon">🎯</div>
+          <h4>Практикуешь 30–40 мин в день</h4>
+          <p>Пошаговые уроки с готовыми формулами. Каждый вечер — конкретный результат в руках.</p>
+        </div>
+        <div class="step__connector">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 16H28M28 16L20 8M28 16L20 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="step reveal">
+          <div class="step__num">03</div>
+          <div class="step__icon">💸</div>
+          <h4>Берёшь первые заказы</h4>
+          <p>На 7-й день — готовое портфолио и план, где брать заказы по 800–2 500 ₽ за ролик.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- МАРКИЗА ИНСТРУМЕНТОВ -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
@@ -130,14 +165,17 @@
 
       <div class="pain__grid">
         <div class="pain-card reveal">
+          <div class="pain-card__icon">💸</div>
           <b>1 200 ₽</b>
           <p>столько дизайнер берёт за <strong>один</strong> пост. Вы заплатите — или заработаете. Выбор за вами.</p>
         </div>
         <div class="pain-card reveal">
+          <div class="pain-card__icon">⏱️</div>
           <b>2 500 ₽</b>
           <p>цена одного продающего видео на фрилансе. Нейросеть делает его за 20 минут.</p>
         </div>
         <div class="pain-card pain-card--accent reveal">
+          <div class="pain-card__icon">🔥</div>
           <b>−30 000 ₽/мес</b>
           <p>теряет тот, кто откладывает: либо платит подрядчикам, либо не берёт заказы, которые уже есть на рынке.</p>
         </div>
@@ -291,26 +329,56 @@
 
       <div class="results__grid">
         <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
           <blockquote>«Через неделю после курса взяла первый заказ — карточки для маркетплейса. Делала вечером, пока ребёнок спал»</blockquote>
           <figcaption>
             <img src="images/avatar2.jpg" alt="" loading="lazy" />
             <div><b>Ученица потока</b><small>мама в декрете, старт с нуля</small></div>
           </figcaption>
+          <div class="review__verified"><span>✓</span> Проверено</div>
         </figure>
         <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
           <blockquote>«Перестал платить дизайнеру за посты. Теперь весь контент для магазина делаю сам за вечер»</blockquote>
           <figcaption>
             <img src="images/avatar1.jpg" alt="" loading="lazy" />
             <div><b>Ученик потока</b><small>владелец интернет‑магазина</small></div>
           </figcaption>
+          <div class="review__verified"><span>✓</span> Проверено</div>
         </figure>
         <figure class="review reveal">
+          <div class="review__stars">★★★★★</div>
           <blockquote>«Думал, что я гуманитарий и мне не дано. На третий день у меня были готовые изображения, на седьмой — видео»</blockquote>
           <figcaption>
             <img src="images/avatar3.jpg" alt="" loading="lazy" />
             <div><b>Ученик потока</b><small>без технического опыта</small></div>
           </figcaption>
+          <div class="review__verified"><span>✓</span> Проверено</div>
         </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ГАРАНТИЯ (снятие риска) ═══════════════ -->
+  <section class="guarantee">
+    <div class="container">
+      <div class="guarantee__card reveal">
+        <div class="guarantee__shield">
+          <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 4L6 12V24C6 33.94 14.16 43.28 24 46C33.84 43.28 42 33.94 42 24V12L24 4Z" fill="rgba(200,255,0,0.12)" stroke="#C8FF00" stroke-width="1.5"/>
+            <path d="M17 24L22 29L31 19" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="guarantee__content">
+          <h3>Нулевой риск для вас</h3>
+          <p class="guarantee__sub">Первые 2 дня полностью бесплатны и открыты без карты. Если к концу второго дня вы не создадите первый AI-контент — просто не продолжайте. Никаких списаний, никакого спама, отписка в один клик.</p>
+          <div class="guarantee__badges">
+            <div class="g-badge"><span>✓</span> Без карты при регистрации</div>
+            <div class="g-badge"><span>✓</span> Отписка в 1 клик</div>
+            <div class="g-badge"><span>✓</span> Материалы остаются у вас</div>
+            <div class="g-badge"><span>✓</span> Поддержка 24/7</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -330,6 +398,17 @@
           <li><i>✓</i><span><b>Портфолио к концу недели</b> — карточки и видео, которые можно показывать заказчикам</span></li>
           <li><i>✓</i><span><b>План первых заказов</b> — где искать клиентов и сколько брать за работу</span></li>
         </ul>
+
+        <div class="value-stack">
+          <div class="value-stack__row"><span>7 дней практики с наставником</span><span class="vs-price">₽8 000</span></div>
+          <div class="value-stack__row"><span>Доступ к 10+ нейросетям</span><span class="vs-price">₽5 000</span></div>
+          <div class="value-stack__row"><span>База готовых промптов</span><span class="vs-price">₽3 000</span></div>
+          <div class="value-stack__row"><span>Поддержка 24/7</span><span class="vs-price">₽6 000</span></div>
+          <div class="value-stack__row"><span>Портфолио с реальными работами</span><span class="vs-price">₽4 000</span></div>
+          <div class="value-stack__row"><span>План поиска первых заказов</span><span class="vs-price">₽4 000</span></div>
+          <div class="value-stack__total"><span>Итого ценность</span><span><s>₽30 000</s></span></div>
+          <div class="value-stack__free"><span>Первые 2 дня для вас</span><span class="vs-free">0 ₽</span></div>
+        </div>
 
         <div class="deadline">
           <div class="deadline__label">Бесплатный доступ закроется через</div>
@@ -361,12 +440,12 @@
       <h2 class="reveal">Курс для вас, если вы…</h2>
 
       <div class="audience__list">
-        <div class="audience__item reveal"><div class="audience__text"><h4>Новичок в нейросетях</h4><p>Ни разу не открывали ChatGPT. Курс начинается с абсолютного нуля — по шагам.</p></div></div>
-        <div class="audience__item reveal"><div class="audience__text"><h4>Владелец бизнеса</h4><p>Устали платить за каждый пост и ролик. Через неделю делаете контент сами.</p></div></div>
-        <div class="audience__item reveal"><div class="audience__text"><h4>Хотите доход из дома</h4><p>1–2 часа в день — и навык, на котором зарабатывают из любой точки, хоть из декрета.</p></div></div>
-        <div class="audience__item reveal"><div class="audience__text"><h4>Контент‑мейкер</h4><p>Хотите делать ролики быстрее и дешевле, чем руками — и брать больше заказов.</p></div></div>
-        <div class="audience__item reveal"><div class="audience__text"><h4>«Я гуманитарий»</h4><p>Кода нет вообще. Только готовые формулы: скопировал — подставил — получил.</p></div></div>
-        <div class="audience__item reveal"><div class="audience__text"><h4>Устали работать «на дядю»</h4><p>Ищете своё дело без вложений. AI‑контент — ниша, где спрос обгоняет исполнителей.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">🤖</div><div class="audience__text"><h4>Новичок в нейросетях</h4><p>Ни разу не открывали ChatGPT. Курс начинается с абсолютного нуля — по шагам.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">💼</div><div class="audience__text"><h4>Владелец бизнеса</h4><p>Устали платить за каждый пост и ролик. Через неделю делаете контент сами.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">🏠</div><div class="audience__text"><h4>Хотите доход из дома</h4><p>1–2 часа в день — и навык, на котором зарабатывают из любой точки, хоть из декрета.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">🎬</div><div class="audience__text"><h4>Контент‑мейкер</h4><p>Хотите делать ролики быстрее и дешевле, чем руками — и брать больше заказов.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">📚</div><div class="audience__text"><h4>«Я гуманитарий»</h4><p>Кода нет вообще. Только готовые формулы: скопировал — подставил — получил.</p></div></div>
+        <div class="audience__item reveal"><div class="audience__icon">🚀</div><div class="audience__text"><h4>Устали работать «на дядю»</h4><p>Ищете своё дело без вложений. AI‑контент — ниша, где спрос обгоняет исполнителей.</p></div></div>
       </div>
 
       <div class="cta-block reveal">
@@ -431,6 +510,16 @@
     </div>
   </section>
 
+  <!-- ═══════════════ BOTTOM STRIP ═══════════════ -->
+  <div class="trust-strip" aria-hidden="true">
+    <div class="container trust-strip__inner">
+      <div class="trust-item"><span>🔒</span> Без карты при регистрации</div>
+      <div class="trust-item"><span>⚡</span> Доступ открывается за 30 секунд</div>
+      <div class="trust-item"><span>📱</span> Работает на любом устройстве</div>
+      <div class="trust-item"><span>✨</span> Поддержка 24/7 в Telegram</div>
+    </div>
+  </div>
+
   <!-- ПОДВАЛ -->
   <footer class="footer">
     <div class="container footer__inner">
@@ -438,6 +527,9 @@
       <p>© 2026 TRUE AI ACADEMY. Все права защищены.</p>
     </div>
   </footer>
+
+  <!-- TOAST NOTIFICATIONS (социальное доказательство) -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false"></div>
 
   <!-- STICKY CTA (мобильные) -->
   <a href="https://t.me/Trueman_ai_bot?start=land" target="_blank" rel="noopener" class="sticky-cta">Забрать 2 дня бесплатно →</a>
