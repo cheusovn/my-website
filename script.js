@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const isPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   const isMobile = window.innerWidth < 720;
 
+  // Уважение к reduced-motion: останавливаем фоновое видео в hero
+  if (reduceMotion) {
+    document.querySelectorAll('video[autoplay]').forEach(v => { v.pause(); v.removeAttribute('autoplay'); });
+  }
+
   /* ==========================================================
      1. BACKGROUND LAYERS — на всю страницу
   ========================================================== */

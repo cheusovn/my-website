@@ -77,7 +77,10 @@
           🎬 KLING 3.0: вместо <img> можно вставить <video autoplay muted loop playsinline> — промпт там же.
         -->
         <div class="hero__frame">
-          <img src="images/hero.jpg" alt="Николай Труман — основатель TRUE AI ACADEMY" />
+          <video autoplay muted loop playsinline preload="metadata" poster="images/hero.jpg" aria-label="Николай Труман — основатель TRUE AI ACADEMY">
+            <source src="images/hero.mp4" type="video/mp4" />
+            <img src="images/hero.jpg" alt="Николай Труман — основатель TRUE AI ACADEMY" />
+          </video>
           <div class="hero__frame-badge">
             <b data-timer="form">23:54:31</b>
             <small>до закрытия бесплатного доступа</small>

@@ -383,7 +383,8 @@ section { padding: 96px 0; position: relative; }
   background: radial-gradient(circle at 50% 40%, var(--acid-dim), transparent 70%);
   filter: blur(30px);
 }
-.hero__frame img {
+.hero__frame img,
+.hero__frame video {
   border-radius: calc(var(--radius) - 4px);
   width: 100%;
   aspect-ratio: 4 / 5;
