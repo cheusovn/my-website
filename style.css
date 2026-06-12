@@ -814,3 +814,94 @@ section h2 {
   35%  { transform: scale(1.18); filter: brightness(1.4); }
   100% { transform: scale(1);   filter: brightness(1); }
 }
+
+/* ============================================================
+   HERO CANVAS (Three.js)
+   ============================================================ */
+.hero { position: relative; overflow: hidden; }
+.hero-canvas {
+  position: absolute; inset: 0;
+  width: 100% !important; height: 100% !important;
+  pointer-events: none; z-index: 0;
+  opacity: .75;
+}
+.hero > .container { position: relative; z-index: 1; }
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.custom-cursor-active,
+.custom-cursor-active * { cursor: none !important; }
+
+.cur-ring {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid rgba(0,255,136,.7);
+  pointer-events: none; mix-blend-mode: screen;
+  transition: width .25s, height .25s, border-color .2s, background .2s;
+  will-change: transform;
+}
+.cur-ring.cursor-hover {
+  width: 56px; height: 56px;
+  border-color: rgba(0,229,255,.9);
+  background: rgba(0,255,136,.06);
+}
+.cur-dot {
+  position: fixed; top: 0; left: 0; z-index: 10000;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--neon); pointer-events: none;
+  box-shadow: 0 0 10px rgba(0,255,136,.9), 0 0 20px rgba(0,255,136,.5);
+  will-change: transform;
+}
+
+/* ============================================================
+   SECTION SEPARATORS
+   ============================================================ */
+section:not(.hero) {
+  position: relative;
+}
+section:not(.hero)::before {
+  content: '';
+  position: absolute; top: 0; left: 8%; right: 8%;
+  height: 1px; pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0,255,136,.18) 30%,
+    rgba(0,229,255,.18) 70%,
+    transparent
+  );
+}
+
+/* ============================================================
+   IRIDESCENT TOP SHEEN ON GLASS CARDS
+   ============================================================ */
+.story__inner::after,
+.author__inner::after,
+.cta-card::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(0,255,136,.08) 0%,
+    rgba(0,229,255,.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none; z-index: 0;
+}
+
+/* ============================================================
+   PARALLAX OVERFLOW FIX
+   ============================================================ */
+.banner-section,
+.skills,
+.hero { overflow: hidden; }
+
+/* ============================================================
+   MAGNETIC BUTTON RESET (GSAP sets inline transforms)
+   ============================================================ */
+.btn { will-change: transform; }
+
+/* ============================================================
+   H1 CLIP-PATH ANIMATION SUPPORT
+   ============================================================ */
+.hero h1 { will-change: transform, filter, opacity; }
