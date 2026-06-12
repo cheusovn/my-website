@@ -120,24 +120,7 @@ b, strong { font-weight: 700; color: var(--txt); }
 .page-sheen {
   position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden;
 }
-.page-sheen::before {
-  content: ""; position: absolute; top: -50%; left: -30%; width: 160%; height: 200%;
-  background: linear-gradient(
-    115deg,
-    transparent 35%,
-    rgba(0,255,136,.05) 48%,
-    rgba(170,255,221,.10) 50%,
-    rgba(0,255,136,.05) 52%,
-    transparent 65%
-  );
-  filter: blur(10px); mix-blend-mode: screen;
-  animation: pageSheen 14s ease-in-out infinite;
-}
-@keyframes pageSheen {
-  0%   { transform: translateX(-40%) translateY(0);   opacity: .6; }
-  50%  { transform: translateX(40%)  translateY(-4%); opacity: 1; }
-  100% { transform: translateX(-40%) translateY(0);   opacity: .6; }
-}
+.page-sheen::before { display: none; }
 
 /* — Светлячки — */
 .fireflies { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -832,6 +815,12 @@ section h2 {
    ============================================================ */
 .custom-cursor-active,
 .custom-cursor-active * { cursor: none !important; }
+
+/* Скрыты по умолчанию — показываются только на десктопе через JS-класс */
+.cur-ring, .cur-dot { display: none; }
+
+.custom-cursor-active .cur-ring,
+.custom-cursor-active .cur-dot { display: block; }
 
 .cur-ring {
   position: fixed; top: 0; left: 0; z-index: 9999;

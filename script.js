@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="silk-overlay"></div>
     <div class="noise-overlay"></div>
     <div class="page-glow-edges"></div>
-    <div class="page-sheen"></div>
     <div class="fireflies"></div>
   `);
 
@@ -139,12 +138,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (ring && dot && isPointer) {
     document.body.classList.add('custom-cursor-active');
+    // Стартуем скрытыми — показываем после первого движения мышью
+    gsap.set([ring, dot], { opacity: 0 });
 
-    let rx = 0, ry = 0, mx = 0, my = 0;
+    let rx = 0, ry = 0, mx = 0, my = 0, cursorShown = false;
 
     window.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       gsap.set(dot, { x: mx - 3, y: my - 3 });
+      if (!cursorShown) {
+        cursorShown = true;
+        gsap.to([ring, dot], { opacity: 1, duration: .4 });
+      }
     }, { passive: true });
 
     gsap.ticker.add(() => {
