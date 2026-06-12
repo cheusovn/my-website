@@ -390,19 +390,17 @@ section { padding: 96px 0; position: relative; }
   aspect-ratio: 4 / 5;
   object-fit: cover;
   display: block;
-  /* Убираем пересветлённость видео со светлым фоном */
-  filter: brightness(.82) contrast(1.08) saturate(.88);
 }
 
-/* Тёмный виньет по краям — скрывает светлый фон, сохраняет лицо */
+/* Мягкий виньет снизу и по краям — помогает бейджу читаться на любом видео */
 .hero__frame::after {
   content: '';
   position: absolute;
   inset: 6px;
   border-radius: calc(var(--radius) - 4px);
   background:
-    linear-gradient(to right,  rgba(5,6,4,.72) 0%, transparent 28%, transparent 72%, rgba(5,6,4,.72) 100%),
-    linear-gradient(to bottom, rgba(5,6,4,.45) 0%, transparent 35%, transparent 55%, rgba(5,6,4,.88) 100%);
+    linear-gradient(to right,  rgba(5,6,4,.45) 0%, transparent 22%, transparent 78%, rgba(5,6,4,.45) 100%),
+    linear-gradient(to bottom, rgba(5,6,4,.15) 0%, transparent 40%, transparent 50%, rgba(5,6,4,.82) 100%);
   pointer-events: none;
   z-index: 1;
 }
