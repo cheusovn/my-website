@@ -215,7 +215,18 @@ document.addEventListener('DOMContentLoaded', () => {
         xTo((e.clientX - (r.left + r.width  / 2)) * .3);
         yTo((e.clientY - (r.top  + r.height / 2)) * .3);
       });
-      btn.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+      btn.addEventListener('mouseleave', () => {
+        xTo(0); yTo(0);
+        gsap.to(btn, { scale: 1, duration: .3, ease: 'elastic.out(1,.5)', overwrite: 'auto' });
+      });
+      btn.addEventListener('mousedown', () => {
+        gsap.to(btn, { scale: .93, duration: .1, ease: 'power2.in', overwrite: 'auto' });
+      });
+      btn.addEventListener('mouseup', () => {
+        gsap.timeline({ overwrite: 'auto' })
+          .to(btn, { scale: 1.05, duration: .18, ease: 'power1.out' })
+          .to(btn, { scale: 1, duration: .45, ease: 'elastic.out(1,.5)' });
+      });
     });
   }
 
