@@ -1,0 +1,3 @@
+[submodule ".agents/skills/marketingskills"]
+	path = .agents/skills/marketingskills
+	url = https://github.com/cheusovn/marketingskills
