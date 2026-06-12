@@ -11,31 +11,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const isMobile = window.innerWidth < 720;
+
+  // Уважение к reduced-motion: останавливаем фоновое видео в hero
+  if (reduceMotion) {
+    document.querySelectorAll('video[autoplay]').forEach(v => { v.pause(); v.removeAttribute('autoplay'); });
+  }
 
   /* ==========================================================
-     1. BACKGROUND LAYERS
+     1. BACKGROUND LAYERS — на всю страницу
   ========================================================== */
   document.body.insertAdjacentHTML('afterbegin', `
     <div class="aurora-bg">
       <div class="aurora-blob aurora-blob--1"></div>
       <div class="aurora-blob aurora-blob--2"></div>
       <div class="aurora-blob aurora-blob--3"></div>
+      <div class="aurora-blob aurora-blob--4"></div>
     </div>
+    <div class="grid-overlay"></div>
     <div class="noise-overlay"></div>
     <div class="fireflies"></div>
+    <div class="scroll-progress"><i></i></div>
   `);
 
   /* ==========================================================
-     2. FIREFLIES (кислотные светлячки)
+     2. FIREFLIES (кислотные светлячки по всей странице)
   ========================================================== */
   if (!reduceMotion) {
     const fireflies = document.querySelector('.fireflies');
-    const count = window.innerWidth < 720 ? 12 : 24;
+    const count = isMobile ? 18 : 38;
     for (let i = 0; i < count; i++) {
       const f = document.createElement('div');
       f.className = 'firefly';
       const size = Math.random() * 2.5 + 1.5;
-      f.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:${Math.random()*100+20}vh`;
+      f.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}vw;top:${Math.random()*100+10}vh`;
       f.style.setProperty('--fly-dur',   (Math.random()*14+12)+'s');
       f.style.setProperty('--fly-delay', (-Math.random()*18)+'s');
       f.style.setProperty('--blink-dur', (Math.random()*3+3)+'s');
@@ -64,24 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================
-     4. THREE.JS — кислотное поле частиц в hero
+     4. THREE.JS — кислотное поле частиц НА ВСЮ СТРАНИЦУ
+        (fixed-слой за контентом, реагирует на мышь и скролл)
   ========================================================== */
-  const heroSection = document.querySelector('.hero');
-  if (typeof THREE !== 'undefined' && heroSection && !reduceMotion) {
+  if (typeof THREE !== 'undefined' && !reduceMotion) {
     const canvas = document.createElement('canvas');
-    canvas.className = 'hero-canvas';
-    heroSection.insertAdjacentElement('afterbegin', canvas);
+    canvas.className = 'space-canvas';
+    document.body.insertAdjacentElement('afterbegin', canvas);
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    renderer.setSize(heroSection.offsetWidth, heroSection.offsetHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
 
     const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, heroSection.offsetWidth / heroSection.offsetHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 90;
 
-    const COUNT     = window.innerWidth < 640 ? 70 : 170;
+    const COUNT     = isMobile ? 90 : 190;
     const positions = new Float32Array(COUNT * 3);
     const colors    = new Float32Array(COUNT * 3);
     const palette   = [
@@ -92,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     for (let i = 0; i < COUNT; i++) {
-      positions[i*3]   = (Math.random() - .5) * 180;
-      positions[i*3+1] = (Math.random() - .5) * 90;
-      positions[i*3+2] = (Math.random() - .5) * 50;
+      positions[i*3]   = (Math.random() - .5) * 220;
+      positions[i*3+1] = (Math.random() - .5) * 130;
+      positions[i*3+2] = (Math.random() - .5) * 70;
       const c = palette[Math.floor(Math.random() * palette.length)];
       colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
     }
@@ -104,25 +113,50 @@ document.addEventListener('DOMContentLoaded', () => {
     geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 2.1, vertexColors: true, transparent: true, opacity: .75,
+      size: 1.7, vertexColors: true, transparent: true, opacity: .5,
       sizeAttenuation: true, blending: THREE.AdditiveBlending, depthWrite: false,
     });
 
     const points = new THREE.Points(geo, mat);
     scene.add(points);
 
-    let heroMouseX = 0, heroMouseY = 0;
-    heroSection.addEventListener('mousemove', e => {
-      const r = heroSection.getBoundingClientRect();
-      heroMouseX = ((e.clientX - r.left) / r.width  - .5) * 2;
-      heroMouseY = ((e.clientY - r.top)  / r.height - .5) * -2;
+    /* линии-созвездия между ближними частицами — глубина и «дороговизна» */
+    const lineGeo = new THREE.BufferGeometry();
+    const linePos = [];
+    for (let i = 0; i < COUNT; i++) {
+      for (let j = i + 1; j < COUNT; j++) {
+        const dx = positions[i*3] - positions[j*3];
+        const dy = positions[i*3+1] - positions[j*3+1];
+        const dz = positions[i*3+2] - positions[j*3+2];
+        if (dx*dx + dy*dy + dz*dz < 280) {
+          linePos.push(positions[i*3], positions[i*3+1], positions[i*3+2],
+                       positions[j*3], positions[j*3+1], positions[j*3+2]);
+        }
+      }
+    }
+    lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
+    const lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({
+      color: 0xC8FF00, transparent: true, opacity: .045,
+      blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    scene.add(lines);
+
+    let mouseX = 0, mouseY = 0, scrollRot = 0;
+    window.addEventListener('mousemove', e => {
+      mouseX = (e.clientX / window.innerWidth  - .5) * 2;
+      mouseY = (e.clientY / window.innerHeight - .5) * -2;
+    }, { passive: true });
+    window.addEventListener('scroll', () => {
+      scrollRot = window.scrollY * .00018;
     }, { passive: true });
 
     (function threeLoop() {
       requestAnimationFrame(threeLoop);
       const t = Date.now() * .001;
-      points.rotation.y = t * .025 + heroMouseX * .06;
-      points.rotation.x = t * .008 + heroMouseY * .03;
+      const ry = t * .02 + mouseX * .07 + scrollRot;
+      const rx = t * .007 + mouseY * .035 + scrollRot * .4;
+      points.rotation.y = ry; lines.rotation.y = ry;
+      points.rotation.x = rx; lines.rotation.x = rx;
       const pos = geo.attributes.position;
       for (let i = 0; i < COUNT; i++) {
         pos.array[i*3+1] += Math.sin(t * .25 + i * .6) * .006;
@@ -132,10 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     window.addEventListener('resize', () => {
-      const w = heroSection.offsetWidth, h = heroSection.offsetHeight;
-      camera.aspect = w / h;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }, { passive: true });
   }
 
@@ -187,69 +220,167 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================
-     7. HERO ENTRANCE TIMELINE
+     7. HERO ENTRANCE — пословный разлёт заголовка
   ========================================================== */
   if (reduceMotion) {
     document.querySelectorAll('.reveal').forEach(el => el.style.opacity = 1);
   } else {
+
+    // Разбиваем h1 на слова для каскадного появления (DOM-обход — не ломает <em> и <br>)
+    const splitWords = root => {
+      [...root.childNodes].forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          node.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span');
+            w.className = 'w';
+            w.innerHTML = `<span class="wi">${part}</span>`;
+            frag.appendChild(w);
+          });
+          node.replaceWith(frag);
+        } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') {
+          splitWords(node);
+        }
+      });
+    };
+    const h1 = document.querySelector('.hero h1');
+    if (h1) splitWords(h1);
+
     gsap.timeline({ delay: .1 })
-      .from('.hero__eyebrow', { y: 36, opacity: 0, duration: .7, ease: 'power3.out' })
-      .from('.hero h1', {
-        y: 40, opacity: 0, filter: 'blur(14px)',
-        duration: 1, ease: 'power3.out',
-      }, '-=.4')
+      .from('.hero__eyebrow .pill', { y: 30, opacity: 0, stagger: .12, duration: .6, ease: 'power3.out' })
+      .from('.hero h1 .wi', {
+        yPercent: 110, rotateZ: 4, opacity: 0,
+        stagger: .06, duration: .9, ease: 'power4.out',
+      }, '-=.3')
       .from('.hero__sub', { y: 26, opacity: 0, duration: .65, ease: 'power2.out' }, '-=.5')
       .from('.hero__cta .btn', { y: 26, opacity: 0, scale: .96, duration: .6, ease: 'back.out(1.6)' }, '-=.35')
-      .from('.social-proof', { y: 18, opacity: 0, duration: .5, ease: 'power2.out' }, '-=.3')
-      .from('.hero__frame', { x: 50, opacity: 0, scale: .96, duration: 1, ease: 'power3.out' }, '-=.9')
-      .from('.stats-strip', { y: 40, opacity: 0, duration: .8, ease: 'power3.out' }, '-=.5');
+      .from('.social-proof .avatar-img, .social-proof .avatar-count', {
+        scale: 0, opacity: 0, stagger: .07, duration: .5, ease: 'back.out(2.2)',
+      }, '-=.3')
+      .from('.social-proof p', { y: 14, opacity: 0, duration: .5, ease: 'power2.out' }, '-=.3')
+      .from('.hero__frame', { x: 60, opacity: 0, scale: .95, rotateY: -8, duration: 1.1, ease: 'power3.out', transformPerspective: 900 }, '-=1.1')
+      .from('.hero__frame-badge', { y: 24, opacity: 0, duration: .6, ease: 'power3.out' }, '-=.4')
+      .from('.stats-strip .stat', { y: 44, opacity: 0, stagger: .1, duration: .7, ease: 'power3.out' }, '-=.5');
 
     /* ==========================================================
-       8. SCROLL REVEAL — все .reveal элементы
+       8. SCROLL REVEAL — с вариациями по типу элемента
     ========================================================== */
     document.querySelectorAll('.reveal').forEach(el => {
-      gsap.fromTo(el,
-        { y: 44, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: .85, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-        });
+      const st = { trigger: el, start: 'top 88%', toggleActions: 'play none none none' };
+
+      if (el.tagName === 'H2') {
+        gsap.fromTo(el,
+          { y: 60, opacity: 0, rotateX: 35, transformOrigin: '50% 100%' },
+          { y: 0, opacity: 1, rotateX: 0, duration: 1, ease: 'power3.out', scrollTrigger: st });
+      } else if (el.classList.contains('day')) {
+        gsap.fromTo(el,
+          { x: -54, opacity: 0 },
+          { x: 0, opacity: 1, duration: .8, ease: 'power3.out', scrollTrigger: st });
+      } else if (el.classList.contains('review') || el.classList.contains('pain-card')) {
+        gsap.fromTo(el,
+          { y: 56, opacity: 0, scale: .94, rotateZ: gsap.utils.random(-2, 2) },
+          { y: 0, opacity: 1, scale: 1, rotateZ: 0, duration: .9, ease: 'power3.out', scrollTrigger: st });
+      } else if (el.classList.contains('shift-col')) {
+        const fromLeft = el.classList.contains('shift-col--before');
+        gsap.fromTo(el,
+          { x: fromLeft ? -64 : 64, opacity: 0 },
+          { x: 0, opacity: 1, duration: .95, ease: 'power3.out', scrollTrigger: st });
+      } else {
+        gsap.fromTo(el,
+          { y: 44, opacity: 0 },
+          { y: 0, opacity: 1, duration: .85, ease: 'power3.out', scrollTrigger: st });
+      }
     });
 
     /* ==========================================================
-       9. PARALLAX
+       9. ПАРАЛЛАКС — многослойный, на всех секциях
     ========================================================== */
+    const parallax = (targets, y, scrub = 1.5) => {
+      gsap.utils.toArray(targets).forEach((el, i) => {
+        const depth = Array.isArray(y) ? y[i % y.length] : y;
+        gsap.to(el, {
+          y: depth, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub },
+        });
+      });
+    };
+
     gsap.to('.hero__frame', {
-      y: -50, ease: 'none',
+      y: -70, ease: 'none',
       scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2 },
     });
-    gsap.to('.aurora-blob--1', {
-      y: -130, ease: 'none',
-      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom top', scrub: 3 },
+    gsap.to('.hero__content', {
+      y: -30, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2.5 },
     });
-    gsap.to('.aurora-blob--2', {
-      y: -80, ease: 'none',
-      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom top', scrub: 2 },
+
+    parallax('.stats-strip', -36, 2);
+    parallax('.pain-card',  [-22, -52, -82]);
+    parallax('.shift-col--before', -28, 2);
+    parallax('.shift-col--after',  -64, 2);
+    parallax('.author__visual', -46, 2);
+    parallax('.review', [-24, -56, -36]);
+    parallax('.audience__item', [-16, -42, -28, -36, -20, -48]);
+    parallax('.offer-card .offer__list', -20, 2.5);
+    parallax('.cta-card h2', -18, 2.5);
+
+    // Фоновые блобы — глубинный параллакс на весь скролл
+    [['.aurora-blob--1', -160, 3], ['.aurora-blob--2', -110, 2],
+     ['.aurora-blob--3', -200, 2.5], ['.aurora-blob--4', -90, 3.5]].forEach(([sel, y, scrub]) => {
+      gsap.to(sel, {
+        y, ease: 'none',
+        scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom top', scrub },
+      });
     });
 
     /* ==========================================================
-       10. TIMELINE PROGRESS — градиент цели (заливается при скролле)
+       10. SCROLL PROGRESS BAR (кислотная линия сверху)
+    ========================================================== */
+    gsap.to('.scroll-progress i', {
+      scaleX: 1, ease: 'none',
+      scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: .3 },
+    });
+
+    /* ==========================================================
+       11. TIMELINE PROGRESS — градиент цели
     ========================================================== */
     const bar = document.querySelector('.timeline__bar i');
     if (bar) {
       gsap.to(bar, {
         height: '100%', ease: 'none',
-        scrollTrigger: {
-          trigger: '.timeline',
-          start: 'top 75%',
-          end: 'bottom 60%',
-          scrub: 1,
+        scrollTrigger: { trigger: '.timeline', start: 'top 75%', end: 'bottom 60%', scrub: 1 },
+      });
+    }
+
+    // Номера дней вспыхивают при достижении
+    document.querySelectorAll('.day__num').forEach(num => {
+      gsap.fromTo(num,
+        { scale: .6, opacity: .2 },
+        { scale: 1, opacity: 1, duration: .5, ease: 'back.out(2.5)',
+          scrollTrigger: { trigger: num, start: 'top 80%', toggleActions: 'play none none none' } });
+    });
+
+    /* ==========================================================
+       12. MARQUEE — ускоряется от скорости скролла
+    ========================================================== */
+    const track = document.querySelector('.marquee__track');
+    if (track) {
+      let speedTween;
+      ScrollTrigger.create({
+        trigger: 'body', start: 'top top', end: 'bottom bottom',
+        onUpdate(self) {
+          const v = Math.min(Math.abs(self.getVelocity()) / 400, 5);
+          if (speedTween) speedTween.kill();
+          track.style.animationDuration = (28 / (1 + v)) + 's';
+          speedTween = gsap.delayedCall(.35, () => track.style.animationDuration = '28s');
         },
       });
     }
 
     /* ==========================================================
-       11. 3D CARD TILT
+       13. 3D CARD TILT + hero-кадр следует за мышью
     ========================================================== */
     if (isPointer) {
       document.querySelectorAll('.audience__item, .pain-card, .review').forEach(card => {
@@ -264,17 +395,32 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
         card.addEventListener('mouseleave', () => {
-          gsap.to(card, {
-            rotateY: 0, rotateX: 0,
-            duration: .7, ease: 'elastic.out(1,.5)',
-          });
+          gsap.to(card, { rotateY: 0, rotateX: 0, duration: .7, ease: 'elastic.out(1,.5)' });
         });
       });
+
+      const frame = document.querySelector('.hero__frame');
+      const heroSection = document.querySelector('.hero');
+      if (frame && heroSection) {
+        heroSection.addEventListener('mousemove', e => {
+          const r = heroSection.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width  - .5;
+          const y = (e.clientY - r.top)  / r.height - .5;
+          gsap.to(frame, {
+            rotateY: x * 7, rotateX: -y * 5,
+            duration: .6, ease: 'power2.out',
+            transformPerspective: 1100, force3D: true,
+          });
+        });
+        heroSection.addEventListener('mouseleave', () => {
+          gsap.to(frame, { rotateY: 0, rotateX: 0, duration: 1, ease: 'elastic.out(1,.4)' });
+        });
+      }
     }
   }
 
   /* ==========================================================
-     12. FAQ ACCORDION
+     14. FAQ ACCORDION
   ========================================================== */
   document.querySelectorAll('.faq__question').forEach(q => {
     q.addEventListener('click', () => {
@@ -292,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================
-     13. COUNTDOWN TIMER (дедлайн хранится в localStorage)
+     15. COUNTDOWN TIMER (дедлайн хранится в localStorage)
   ========================================================== */
   const STORAGE_KEY = 'trueai_deadline';
   let deadline = parseInt(localStorage.getItem(STORAGE_KEY), 10);
@@ -326,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(tick, 1000);
 
   /* ==========================================================
-     14. COUNT-UP (кинетические цифры)
+     16. COUNT-UP (кинетические цифры)
   ========================================================== */
   document.querySelectorAll('.count-up').forEach(el => {
     const target = parseInt(el.dataset.target, 10);
@@ -346,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================
-     15. STICKY CTA — прячется, когда виден финальный CTA
+     17. STICKY CTA — прячется, когда виден финальный CTA
   ========================================================== */
   const ctaSection = document.querySelector('#cta');
   const stickyCta  = document.querySelector('.sticky-cta');
