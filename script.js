@@ -371,21 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================
-       12. MARQUEE — ускоряется от скорости скролла
+       12. MARQUEE — равномерная скорость
     ========================================================== */
-    const track = document.querySelector('.marquee__track');
-    if (track) {
-      let speedTween;
-      ScrollTrigger.create({
-        trigger: 'body', start: 'top top', end: 'bottom bottom',
-        onUpdate(self) {
-          const v = Math.min(Math.abs(self.getVelocity()) / 400, 5);
-          if (speedTween) speedTween.kill();
-          track.style.animationDuration = (28 / (1 + v)) + 's';
-          speedTween = gsap.delayedCall(.35, () => track.style.animationDuration = '28s');
-        },
-      });
-    }
 
     /* ==========================================================
        13. 3D CARD TILT + hero-кадр следует за мышью
