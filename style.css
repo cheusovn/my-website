@@ -88,6 +88,49 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   to   { transform: translate(6vw, 4vh) scale(1.12); }
 }
 
+.aurora-blob--4 {
+  width: 40vw; height: 40vw; top: 110vh; left: -16vw;
+  background: radial-gradient(circle, rgba(0,255,136,.08), transparent 65%);
+  animation: blob-drift 30s ease-in-out infinite alternate-reverse;
+}
+
+/* Полноэкранное поле частиц Three.js (за контентом) */
+.space-canvas {
+  position: fixed; inset: 0; z-index: -2;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+}
+
+/* Анимированная перспективная сетка */
+.grid-overlay {
+  position: fixed; inset: 0; z-index: -2;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    linear-gradient(rgba(200, 255, 0, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200, 255, 0, .045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(75% 60% at 50% 40%, #000 0%, transparent 100%);
+          mask-image: radial-gradient(75% 60% at 50% 40%, #000 0%, transparent 100%);
+  animation: grid-pan 18s linear infinite;
+}
+@keyframes grid-pan { to { background-position: 0 -64px, 64px 0; } }
+
+/* Кислотная полоса прогресса скролла */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  height: 2px;
+  pointer-events: none;
+}
+.scroll-progress i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--acid), var(--mint));
+  box-shadow: 0 0 12px var(--acid-glow);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
 .noise-overlay {
   position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -127,9 +170,38 @@ h4 { font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; lin
 
 h1 em, h2 em {
   font-style: normal;
-  color: var(--acid);
-  text-shadow: 0 0 32px var(--acid-glow);
+  background: linear-gradient(110deg, var(--acid) 20%, var(--mint) 45%, var(--acid-soft) 60%, var(--acid) 80%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px var(--acid-glow));
+  animation: em-shimmer 5s ease-in-out infinite;
 }
+@keyframes em-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* После пословного сплита background-clip:text не работает сквозь
+   inline-block обёртки — переносим градиент на сами слова внутри em */
+.hero h1 em { background: none; filter: none; animation: none; color: inherit; }
+.hero h1 em .wi {
+  background: linear-gradient(110deg, var(--acid) 20%, var(--mint) 45%, var(--acid-soft) 60%, var(--acid) 80%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px var(--acid-glow));
+  animation: em-shimmer 5s ease-in-out infinite;
+}
+
+/* Обёртки слов h1 (каскадный разлёт через GSAP) */
+.hero h1 .w {
+  display: inline-block; overflow: hidden; vertical-align: bottom;
+  padding-bottom: .14em; margin-bottom: -.14em; /* не срезать выносные элементы букв */
+}
+.hero h1 .wi { display: inline-block; will-change: transform; }
 
 .section-eyebrow {
   font-family: var(--font-mono);
@@ -184,6 +256,23 @@ section { padding: 96px 0; position: relative; }
   box-shadow: 0 0 0 1px rgba(200,255,0,.7), 0 14px 60px -6px var(--acid-glow);
   filter: brightness(1.06);
 }
+/* Периодический блик-шиммер по кнопке */
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  background-size: 250% 100%;
+  background-position: 130% 0;
+  mix-blend-mode: overlay;
+  animation: btn-sheen 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes btn-sheen {
+  0%, 60% { background-position: 130% 0; }
+  85%, 100% { background-position: -60% 0; }
+}
+.btn--ghost::after { display: none; }
 .btn span {
   font-family: var(--font-body);
   font-weight: 600; font-size: .74rem;
@@ -207,6 +296,13 @@ section { padding: 96px 0; position: relative; }
 .btn--ghost span { opacity: .55; }
 
 .cta-block { margin-top: 56px; text-align: center; }
+
+/* Пульс главных CTA — мягкое «дыхание» свечения */
+.btn--xl, .sticky-cta { animation: cta-pulse 2.8s ease-in-out infinite; }
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(200,255,0,.4), 0 8px 40px -8px var(--acid-glow); }
+  50%      { box-shadow: 0 0 0 1px rgba(200,255,0,.85), 0 10px 74px -4px rgba(200,255,0,.55); }
+}
 
 /* ════════════════════════════════════════
    HERO
@@ -301,6 +397,11 @@ section { padding: 96px 0; position: relative; }
   background: rgba(7, 9, 5, .7);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
+}
+.hero__frame-badge { animation: badge-float 5s ease-in-out infinite; }
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
 }
 .hero__frame-badge b {
   font-family: var(--font-mono);
@@ -603,7 +704,31 @@ section { padding: 96px 0; position: relative; }
 /* ════════════════════════════════════════
    OFFER
 ════════════════════════════════════════ */
+/* Бегущий световой луч по рамке премиум-карточек */
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.offer-card::before, .cta-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--beam-angle),
+    transparent 0%, transparent 72%,
+    var(--acid) 86%, var(--mint) 92%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: beam-rotate 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes beam-rotate { to { --beam-angle: 360deg; } }
+
 .offer-card {
+  position: relative;
   padding: clamp(36px, 6vw, 64px);
   border-radius: calc(var(--radius) + 6px);
   background:
