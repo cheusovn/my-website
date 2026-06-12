@@ -469,7 +469,9 @@ section { padding: 120px 0; position: relative; }
 .marquee__track {
   display: flex; align-items: center; gap: 36px;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  animation: marquee 36s linear infinite;
 }
 .marquee__track span {
   font-family: var(--font-display);
@@ -481,7 +483,10 @@ section { padding: 120px 0; position: relative; }
   white-space: nowrap;
 }
 .marquee__track i { color: var(--acid); font-style: normal; font-size: .8rem; }
-@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
 
 /* ════════════════════════════════════════
    PAIN (потери)
