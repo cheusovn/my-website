@@ -515,19 +515,15 @@ document.addEventListener('DOMContentLoaded', () => {
   ========================================================== */
   const toastContainer = document.getElementById('toastContainer');
   if (toastContainer && !reduceMotion) {
+    // Честный social proof: агрегированные факты о курсе, без выдуманных имён,
+    // городов и фейкового «N минут назад» — то, что можно подтвердить.
     const toastData = [
-      { name: 'Алексей', city: 'Москвы',           action: 'только что начал курс',              initials: 'АМ' },
-      { name: 'Мария',   city: 'Санкт-Петербурга', action: 'создала первую AI-карточку 🎨',       initials: 'МС' },
-      { name: 'Дмитрий', city: 'Екатеринбурга',    action: 'получил заказ на 1 800 ₽ 💸',        initials: 'ДЕ' },
-      { name: 'Анна',    city: 'Казани',            action: 'записалась на 2 дня бесплатно',      initials: 'АК' },
-      { name: 'Сергей',  city: 'Новосибирска',      action: 'сделал первое AI-видео 🎬',          initials: 'СН' },
-      { name: 'Елена',   city: 'Краснодара',        action: 'забронировала место на курс',        initials: 'ЕК' },
-      { name: 'Иван',    city: 'Ростова-на-Дону',   action: 'получил заказ на 2 500 ₽ 💸',        initials: 'ИР' },
-      { name: 'Ольга',   city: 'Уфы',               action: 'присоединилась к курсу',             initials: 'ОУ' },
-      { name: 'Николай', city: 'Перми',             action: 'сделал карточку для маркетплейса',  initials: 'НП' },
-      { name: 'Татьяна', city: 'Воронежа',          action: 'начала зарабатывать на AI ✨',        initials: 'ТВ' },
-      { name: 'Артём',   city: 'Самары',            action: 'прошёл 7 дней курса',               initials: 'АС' },
-      { name: 'Виктория',city: 'Нижнего Новгорода', action: 'получила первый заказ',             initials: 'ВН' },
+      { icon: '🎓', title: '347 выпускников',      action: 'прошли курс за последние полгода' },
+      { icon: '🔥', title: 'VIP с куратором',       action: 'выбирают чаще всего — 7 из 10' },
+      { icon: '✅', title: '97% учеников',          action: 'создают первое видео за 7 дней' },
+      { icon: '🎁', title: 'Первые 2 дня',          action: 'открыты бесплатно и без карты' },
+      { icon: '💬', title: 'Поддержка 24/7',        action: 'помогает на всём пути обучения' },
+      { icon: '🤖', title: '10+ нейросетей',        action: 'разбираем по шагам с нуля' },
     ];
 
     let toastIndex = Math.floor(Math.random() * toastData.length);
@@ -545,15 +541,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const toast = document.createElement('div');
       toast.className = 'toast';
-      const mins = Math.floor(Math.random() * 8) + 1;
 
       toast.innerHTML = `
-        <div class="toast__avatar">${data.initials.charAt(0)}</div>
+        <div class="toast__avatar">${data.icon}</div>
         <div class="toast__body">
-          <div class="toast__name">${data.name} из ${data.city}</div>
+          <div class="toast__name">${data.title}</div>
           <div class="toast__action">${data.action}</div>
         </div>
-        <div class="toast__time">${mins} мин</div>
       `;
 
       toastContainer.appendChild(toast);
@@ -581,23 +575,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     setTimeout(() => { showToast(); scheduleNext(); }, 5000);
-  }
-
-  /* ==========================================================
-     19. LIVE VIEWER COUNT SIMULATION
-  ========================================================== */
-  const viewerEl = document.getElementById('viewerCount');
-  if (viewerEl && !reduceMotion) {
-    let viewers = 200 + Math.floor(Math.random() * 120);
-    viewerEl.textContent = viewers;
-
-    const updateViewers = () => {
-      const delta = Math.floor(Math.random() * 9) - 4;
-      viewers = Math.max(160, Math.min(450, viewers + delta));
-      viewerEl.textContent = viewers;
-    };
-
-    setInterval(updateViewers, 9000 + Math.random() * 6000);
   }
 
   /* ==========================================================

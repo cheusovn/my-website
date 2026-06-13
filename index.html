@@ -51,9 +51,8 @@
       <div class="hero__content">
 
         <div class="hero__eyebrow">
-          <span class="pill pill--live"><i class="live-dot"></i>Набор открыт · места ограничены</span>
-          <span class="pill pill--dim">347+ выпускников</span>
-          <span class="pill pill--viewers"><i class="live-dot live-dot--red"></i><span id="viewerCount">247</span> смотрят сейчас</span>
+          <span class="pill pill--live"><i class="live-dot"></i>Набор открыт</span>
+          <span class="pill pill--dim">347 выпускников за полгода</span>
         </div>
 
         <h1>Первое AI‑видео —<br><em>за 7 дней.</em><br>Первые деньги — сразу.</h1>
@@ -94,8 +93,8 @@
             <img src="images/hero.jpg" alt="Николай Труман — основатель TRUE AI ACADEMY" />
           </video>
           <div class="hero__frame-badge">
-            <b data-timer="form">23:54:31</b>
-            <small>до закрытия бесплатного доступа</small>
+            <b>2 дня</b>
+            <small>бесплатного доступа · без карты</small>
           </div>
         </div>
       </div>
@@ -527,11 +526,6 @@
         <h2>Через 7 дней ты либо умеешь —<br>либо <em>снова откладываешь</em></h2>
         <p class="cta-card__sub">2 дня полного доступа. Без карты. Доступ открывается сразу в Telegram.</p>
 
-        <div class="deadline deadline--inline">
-          <span>Осталось:</span>
-          <b data-timer="form">23:54:31</b>
-        </div>
-
         <a href="https://t.me/Trueman_ai_bot?start=land" target="_blank" rel="noopener" class="btn btn--big btn--xl">
           Забрать 2 дня бесплатно
           <span>Жми — бот откроет доступ мгновенно</span>
@@ -626,15 +620,28 @@
       document.body.appendChild(runner);
       var bubble = runner.querySelector('.pixel-runner__bubble');
 
-      var dodges = 0, caught = false;
+      var dodges = 0, caught = false, started = false;
       var TO_CATCH = 6;
 
-      // Появляется сразу при открытии — в нижнем углу, не мешая тексту
-      setTimeout(function () { runner.classList.remove('pixel-runner--hidden'); }, 600);
-      // лёгкая подсказка через 4 сек
-      setTimeout(function () {
-        if (!caught) { runner.classList.add('show-bubble'); setTimeout(function () { runner.classList.remove('show-bubble'); }, 2600); }
-      }, 4000);
+      // Не отвлекаем от чтения hero/оффера: появляется только после того,
+      // как человек проскроллил страницу (вовлёкся), а не на первой секунде.
+      function startRunner() {
+        if (started) return;
+        started = true;
+        runner.classList.remove('pixel-runner--hidden');
+        setTimeout(function () {
+          if (!caught) { runner.classList.add('show-bubble'); setTimeout(function () { runner.classList.remove('show-bubble'); }, 2600); }
+        }, 1500);
+      }
+      function onScroll() {
+        if (window.scrollY > window.innerHeight * 0.8) {
+          startRunner();
+          window.removeEventListener('scroll', onScroll);
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      // Подстраховка: если человек долго не скроллит — показываем через 25 сек
+      setTimeout(startRunner, 25000);
 
       function safeSpot(awayX, awayY) {
         var W = innerWidth, H = innerHeight, size = runner.offsetWidth || 48, pad = 12;
