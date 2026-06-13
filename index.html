@@ -52,7 +52,7 @@
 
         <div class="hero__eyebrow">
           <span class="pill pill--live"><i class="live-dot"></i>Набор открыт · места ограничены</span>
-          <span class="pill pill--dim">312+ выпускников</span>
+          <span class="pill pill--dim">347+ выпускников</span>
           <span class="pill pill--viewers"><i class="live-dot live-dot--red"></i><span id="viewerCount">247</span> смотрят сейчас</span>
         </div>
 
@@ -104,7 +104,7 @@
     <!-- Кинетические цифры -->
     <div class="container">
       <div class="stats-strip">
-        <div class="stat"><b><span class="count-up" data-target="312">0</span>+</b><small>учеников прошли курс</small></div>
+        <div class="stat"><b><span class="count-up" data-target="347">0</span>+</b><small>учеников прошли курс</small></div>
         <div class="stat"><b><span class="count-up" data-target="97">0</span>%</b><small>создают видео за 7 дней</small></div>
         <div class="stat"><b><span class="count-up" data-target="10">0</span>+</b><small>нейросетей в программе</small></div>
         <div class="stat"><b>24/7</b><small>поддержка на всём пути</small></div>
@@ -332,7 +332,7 @@
         <div class="author__text">
           <p class="section-eyebrow">Кто ведёт курс</p>
           <h2>Николай Труман</h2>
-          <p class="author__lead">Эксперт по нейросетям и AI‑видео. Основатель TRUE AI ACADEMY. Помог 312 ученикам начать зарабатывать на искусственном интеллекте.</p>
+          <p class="author__lead">Эксперт по нейросетям и AI‑видео. Основатель TRUE AI ACADEMY. Помог 347 ученикам начать зарабатывать на искусственном интеллекте.</p>
           <blockquote class="author__story">
             «Я гуманитарий без технического образования — код пугал меня до дрожи. Но я видел счета дизайнеров:
             пост — 1 200 ₽, видео — 2 500 ₽. Десятки тысяч в месяц уходили в никуда.
@@ -341,7 +341,7 @@
             от нуля до результата за 7 дней. Тем самым коротким путём, который искал сам».
           </blockquote>
           <div class="author__stats">
-            <div><b>312</b><small>учеников</small></div>
+            <div><b>347</b><small>учеников</small></div>
             <div><b>97%</b><small>доходят до видео</small></div>
             <div><b>10+</b><small>нейросетей в курсе</small></div>
           </div>
@@ -455,7 +455,7 @@
           <span>Без карты · без обязательств · отписка в один клик</span>
         </a>
 
-        <p class="offer__price-note">После пробных 2 дней — 1 990 ₽/мес. Отменить в любой момент — один клик в Telegram.</p>
+        <p class="offer__price-note">После 2 бесплатных дней — полный курс от 2 970 ₽ единоразово (доступ навсегда). Оплата прямо в Telegram: картой РФ или через Telegram Stars. Отписка в один клик.</p>
 
         <div class="offer__alt-path">
           <p>Не готов к курсу? <a href="https://t.me/syntxaibot?start=aff_817730727" target="_blank" rel="noopener" class="link-gift">Забери 100+ нейросетей на 100+ дней бесплатно →</a></p>
@@ -562,8 +562,8 @@
       <div class="logo">TRUE <span>AI</span> ACADEMY</div>
       <p>© 2026 TRUE AI ACADEMY. Все права защищены.</p>
       <nav class="footer__links">
-        <a href="#" class="footer__link">Политика конфиденциальности</a>
-        <a href="#" class="footer__link">Условия использования</a>
+        <a href="privacy.html" class="footer__link">Политика конфиденциальности</a>
+        <a href="terms.html" class="footer__link">Публичная оферта</a>
       </nav>
     </div>
   </footer>
@@ -579,5 +579,46 @@
   <div class="cur-dot" id="curDot"></div>
 
   <script src="script.js" defer></script>
+
+  <!-- ═══════════════ АНАЛИТИКА ═══════════════
+       Чтобы включить Google Analytics 4: впиши свой Measurement ID (G-XXXXXXXXXX)
+       в GA_ID ниже. Пока пусто — события копятся в window.dataLayer и в консоли. -->
+  <script>
+    (function () {
+      var GA_ID = ""; // ← вставь сюда G-XXXXXXXXXX
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = window.gtag || gtag;
+
+      if (GA_ID) {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      }
+
+      // Трекинг кликов по всем CTA в Telegram (курс и подарок)
+      function track(name, params) {
+        try { gtag('event', name, params || {}); } catch (e) {}
+        if (!GA_ID) console.log('[analytics]', name, params || {});
+      }
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href*="t.me"]');
+        if (!a) return;
+        var href = a.getAttribute('href') || '';
+        var isCourse = href.indexOf('Trueman_ai_bot') !== -1;
+        track('cta_telegram_click', {
+          destination: isCourse ? 'course_bot' : 'gift_bot',
+          label: (a.textContent || '').trim().slice(0, 60),
+          href: href
+        });
+      }, true);
+
+      track('page_view_landing', { page: 'home' });
+    })();
+  </script>
 </body>
 </html>
