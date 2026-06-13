@@ -625,30 +625,15 @@
       document.body.appendChild(runner);
       var bubble = runner.querySelector('.pixel-runner__bubble');
 
-      var dodges = 0, caught = false, revealed = false;
+      var dodges = 0, caught = false;
       var TO_CATCH = 6;
 
-      // Появляется почти в начале — когда проматываешь первый экран с видео
-      function reveal() {
-        if (revealed) return;
-        revealed = true;
-        runner.classList.remove('pixel-runner--hidden');
-        // лёгкая подсказка через 1.5 сек после появления
-        setTimeout(function () {
-          if (!caught) { runner.classList.add('show-bubble'); setTimeout(function () { runner.classList.remove('show-bubble'); }, 2600); }
-        }, 1500);
-      }
-      var afterVideo = document.querySelector('.steps') || document.querySelector('.marquee');
-      if ('IntersectionObserver' in window && afterVideo) {
-        var io = new IntersectionObserver(function (entries) {
-          if (entries[0].isIntersecting) { reveal(); io.disconnect(); }
-        }, { rootMargin: '0px 0px -10% 0px' });
-        io.observe(afterVideo);
-      } else {
-        window.addEventListener('scroll', function onScroll() {
-          if (window.scrollY > innerHeight * 0.7) { reveal(); window.removeEventListener('scroll', onScroll); }
-        }, { passive: true });
-      }
+      // Появляется сразу при открытии — в нижнем углу, не мешая тексту
+      setTimeout(function () { runner.classList.remove('pixel-runner--hidden'); }, 600);
+      // лёгкая подсказка через 4 сек
+      setTimeout(function () {
+        if (!caught) { runner.classList.add('show-bubble'); setTimeout(function () { runner.classList.remove('show-bubble'); }, 2600); }
+      }, 4000);
 
       function safeSpot(awayX, awayY) {
         var W = innerWidth, H = innerHeight, size = runner.offsetWidth || 48, pad = 12;
