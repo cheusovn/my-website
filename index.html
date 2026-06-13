@@ -10,13 +10,13 @@
   <meta property="og:title" content="Первое AI‑видео — за 7 дней. Первые деньги — сразу" />
   <meta property="og:description" content="800–2500 ₽ за каждый ролик или карточку товара. Без кода и опыта. 2 дня доступа бесплатно — без карты." />
   <meta property="og:url" content="https://cheusovn.github.io/my-website/" />
-  <meta property="og:image" content="https://cheusovn.github.io/my-website/images/og-image.jpg" />
+  <meta property="og:image" content="https://cheusovn.github.io/my-website/images/og-image.jpg?v=3" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="ru_RU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Первое AI‑видео — за 7 дней. Первые деньги — сразу" />
-  <meta name="twitter:image" content="https://cheusovn.github.io/my-website/images/og-image.jpg" />
+  <meta name="twitter:image" content="https://cheusovn.github.io/my-website/images/og-image.jpg?v=3" />
 
   <link rel="icon" type="image/png" href="images/android-chrome-512x512.png?v=2" />
   <link rel="apple-touch-icon" href="images/android-chrome-512x512.png?v=2" />
@@ -584,6 +584,24 @@
   <script>
     (function () {
       var GIFT = "https://t.me/syntxaibot?start=aff_817730727"; // подарок: 100+ нейросетей
+      var COURSE = "https://t.me/Trueman_ai_bot?start=catch";    // скидка на курс
+      // Награды чередуются случайно при каждой поимке
+      var REWARDS = [
+        {
+          title: "Поймал! 🎉",
+          text: "Ты упорный — а мы это любим. За это лови подарок: <b>100+ нейросетей на 100+ дней бесплатно</b> — Midjourney, ChatGPT, Kling, Suno и ещё 95+ инструментов. Без карты.",
+          btn: "Забрать 100+ нейросетей",
+          sub: "Бесплатно · откроется в Telegram",
+          url: GIFT, id: "gift_100_ai"
+        },
+        {
+          title: "Поймал! 🎁",
+          text: "Реакция как у тебя — редкость! Держи за это <b>2 дня курса по нейросетям бесплатно</b> + спецусловие от бота. Жми, пока не убежало 😏",
+          btn: "Забрать доступ к курсу",
+          sub: "2 дня бесплатно · доступ в Telegram",
+          url: COURSE, id: "course_trial"
+        }
+      ];
       var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // Пиксельный человечек (SVG, чёткие края)
@@ -666,22 +684,23 @@
       runner.addEventListener('click', function (e) { e.preventDefault(); });
 
       function showReward() {
+        var r = REWARDS[Math.floor(Math.random() * REWARDS.length)];
         var m = document.createElement('div');
         m.className = 'pixel-reward open';
         m.innerHTML =
           '<div class="pixel-reward__card">' +
             '<span class="pixel-reward__close" aria-label="Закрыть">×</span>' +
             PIX.replace('viewBox', 'role="img" viewBox') +
-            '<h3>Поймал! 🎉</h3>' +
-            '<p>Ты упорный — а мы это любим. За это лови подарок: <b>100+ нейросетей на 100+ дней бесплатно</b> — Midjourney, ChatGPT, Kling, Suno и ещё 95+ инструментов. Без карты.</p>' +
-            '<a href="' + GIFT + '" target="_blank" rel="noopener" class="btn btn--big">Забрать 100+ нейросетей<span>Бесплатно · откроется в Telegram</span></a>' +
+            '<h3>' + r.title + '</h3>' +
+            '<p>' + r.text + '</p>' +
+            '<a href="' + r.url + '" target="_blank" rel="noopener" class="btn btn--big">' + r.btn + '<span>' + r.sub + '</span></a>' +
           '</div>';
         document.body.appendChild(m);
 
         function close() { m.classList.remove('open'); setTimeout(function () { m.remove(); }, 250); }
         m.querySelector('.pixel-reward__close').addEventListener('click', close);
         m.addEventListener('click', function (e) { if (e.target === m) close(); });
-        try { window.gtag && gtag('event', 'pixel_reward_shown', { reward: 'gift_100_ai' }); } catch (e) {}
+        try { window.gtag && gtag('event', 'pixel_reward_shown', { reward: r.id }); } catch (e) {}
       }
     })();
   </script>
