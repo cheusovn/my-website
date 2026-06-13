@@ -950,6 +950,8 @@ section { padding: 120px 0; position: relative; }
 }
 .cta-card__sub { color: var(--text-dim); margin: 10px 0 6px; }
 .cta-note { margin-top: 24px; font-size: .8rem; color: var(--text-faint); }
+.cta-channel-link { color: var(--accent); text-decoration: none; font-weight: 600; }
+.cta-channel-link:hover { text-decoration: underline; }
 
 /* ════════════════════════════════════════
    TRUST STRIP (нижняя полоса доверия)
