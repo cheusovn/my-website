@@ -596,10 +596,11 @@
         },
         {
           title: "Поймал! 🎁",
-          text: "Реакция как у тебя — редкость! Держи за это <b>2 дня курса по нейросетям бесплатно</b> + спецусловие от бота. Жми, пока не убежало 😏",
-          btn: "Забрать доступ к курсу",
-          sub: "2 дня бесплатно · доступ в Telegram",
-          url: COURSE, id: "course_trial"
+          text: "Реакция как у тебя — редкость! Держи за это <b>скидку 500 ₽ на любой тариф курса</b>. Назови промокод менеджеру при оплате:",
+          code: "CATCH500",
+          btn: "Активировать скидку в Telegram",
+          sub: "Промокод действует на любой тариф",
+          url: COURSE, id: "course_discount_500"
         }
       ];
       var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -695,10 +696,19 @@
             PIX.replace('viewBox', 'role="img" viewBox') +
             '<h3>' + r.title + '</h3>' +
             '<p>' + r.text + '</p>' +
+            (r.code ? '<div class="pixel-reward__code" title="Нажми, чтобы скопировать">' + r.code + '</div>' : '') +
             '<a href="' + r.url + '" target="_blank" rel="noopener" class="btn btn--big">' + r.btn + '<span>' + r.sub + '</span></a>' +
           '</div>';
         document.body.appendChild(m);
 
+        var codeEl = m.querySelector('.pixel-reward__code');
+        if (codeEl) {
+          codeEl.addEventListener('click', function () {
+            try { navigator.clipboard.writeText(r.code); } catch (e) {}
+            var t = codeEl.textContent; codeEl.textContent = 'Скопировано ✓';
+            setTimeout(function () { codeEl.textContent = t; }, 1500);
+          });
+        }
         function close() { m.classList.remove('open'); setTimeout(function () { m.remove(); }, 250); }
         m.querySelector('.pixel-reward__close').addEventListener('click', close);
         m.addEventListener('click', function (e) { if (e.target === m) close(); });
