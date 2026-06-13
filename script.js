@@ -516,18 +516,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const toastContainer = document.getElementById('toastContainer');
   if (toastContainer && !reduceMotion) {
     const toastData = [
-      { name: 'Алексей', city: 'Москва', action: 'только что начал курс', initials: 'АМ' },
-      { name: 'Мария', city: 'Санкт-Петербург', action: 'создала первую AI-карточку 🎨', initials: 'МС' },
-      { name: 'Дмитрий', city: 'Екатеринбург', action: 'получил заказ на 1 800 ₽ 💸', initials: 'ДЕ' },
-      { name: 'Анна', city: 'Казань', action: 'записалась на 2 дня бесплатно', initials: 'АК' },
-      { name: 'Сергей', city: 'Новосибирск', action: 'сделал первое AI-видео 🎬', initials: 'СН' },
-      { name: 'Елена', city: 'Краснодар', action: 'забронировала место на курс', initials: 'ЕК' },
-      { name: 'Иван', city: 'Ростов-на-Дону', action: 'получил заказ на 2 500 ₽ 💸', initials: 'ИР' },
-      { name: 'Ольга', city: 'Уфа', action: 'присоединилась к курсу', initials: 'ОУ' },
-      { name: 'Николай', city: 'Пермь', action: 'сделал карточку для маркетплейса', initials: 'НП' },
-      { name: 'Татьяна', city: 'Воронеж', action: 'начала зарабатывать на AI ✨', initials: 'ТВ' },
-      { name: 'Артём', city: 'Самара', action: 'прошёл 7 дней курса', initials: 'АС' },
-      { name: 'Виктория', city: 'Нижний Новгород', action: 'получила первый заказ', initials: 'ВН' },
+      { name: 'Алексей', city: 'Москвы',           action: 'только что начал курс',              initials: 'АМ' },
+      { name: 'Мария',   city: 'Санкт-Петербурга', action: 'создала первую AI-карточку 🎨',       initials: 'МС' },
+      { name: 'Дмитрий', city: 'Екатеринбурга',    action: 'получил заказ на 1 800 ₽ 💸',        initials: 'ДЕ' },
+      { name: 'Анна',    city: 'Казани',            action: 'записалась на 2 дня бесплатно',      initials: 'АК' },
+      { name: 'Сергей',  city: 'Новосибирска',      action: 'сделал первое AI-видео 🎬',          initials: 'СН' },
+      { name: 'Елена',   city: 'Краснодара',        action: 'забронировала место на курс',        initials: 'ЕК' },
+      { name: 'Иван',    city: 'Ростова-на-Дону',   action: 'получил заказ на 2 500 ₽ 💸',        initials: 'ИР' },
+      { name: 'Ольга',   city: 'Уфы',               action: 'присоединилась к курсу',             initials: 'ОУ' },
+      { name: 'Николай', city: 'Перми',             action: 'сделал карточку для маркетплейса',  initials: 'НП' },
+      { name: 'Татьяна', city: 'Воронежа',          action: 'начала зарабатывать на AI ✨',        initials: 'ТВ' },
+      { name: 'Артём',   city: 'Самары',            action: 'прошёл 7 дней курса',               initials: 'АС' },
+      { name: 'Виктория',city: 'Нижнего Новгорода', action: 'получила первый заказ',             initials: 'ВН' },
     ];
 
     let toastIndex = Math.floor(Math.random() * toastData.length);
