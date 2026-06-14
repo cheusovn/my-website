@@ -209,7 +209,7 @@ section { padding: 120px 0; position: relative; }
 }
 .btn--ghost::after { display: none; }
 .btn span { font-family: var(--font-body); font-weight: 600; font-size: .74rem; opacity: .72; letter-spacing: 0; }
-.btn-tg { display: block; flex-shrink: 0; opacity: .85; }
+.btn-tg { display: block; flex-shrink: 0; opacity: .85; order: -1; }
 .btn--small { padding: 10px 22px; font-size: .8rem; }
 .btn--big   { padding: 20px 44px; font-size: 1.02rem; }
 .btn--xl    { padding: 24px 54px; font-size: 1.12rem; }
