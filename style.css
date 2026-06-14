@@ -176,8 +176,8 @@ section { padding: 120px 0; position: relative; }
 /* BUTTONS */
 .btn {
   position: relative;
-  display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 2px;
+  display: inline-flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 0 8px;
   font-family: var(--font-display); font-weight: 700;
   text-align: center;
   background: linear-gradient(135deg, var(--acid) 0%, var(--acid-soft) 55%, var(--mint) 130%);
@@ -208,7 +208,7 @@ section { padding: 120px 0; position: relative; }
   to   { background-position: -60% 0; }
 }
 .btn--ghost::after { display: none; }
-.btn span { font-family: var(--font-body); font-weight: 600; font-size: .74rem; opacity: .72; letter-spacing: 0; }
+.btn span { font-family: var(--font-body); font-weight: 600; font-size: .74rem; opacity: .72; letter-spacing: 0; width: 100%; text-align: center; }
 .btn-tg { display: block; flex-shrink: 0; opacity: .85; order: -1; }
 .btn--small { padding: 10px 22px; font-size: .8rem; }
 .btn--big   { padding: 20px 44px; font-size: 1.02rem; }
