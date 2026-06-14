@@ -507,6 +507,31 @@ section { padding: 120px 0; position: relative; }
 .review figcaption b { display: block; font-size: .9rem; }
 .review figcaption small { color: var(--text-dim); font-size: .78rem; }
 
+/* Hero price hint */
+.hero__price-hint {
+  font-size: .82rem; color: var(--text-dim); margin-top: -6px;
+  letter-spacing: .01em; line-height: 1.5;
+}
+.hero__price-hint b { color: var(--acid); }
+
+/* Review receipt badge */
+.review__receipt {
+  background: rgba(200,255,0,.06); border: 1px solid rgba(200,255,0,.2);
+  border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 4px;
+}
+.receipt__label { font-size: .72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; }
+.receipt__amount { font-family: var(--font-mono); font-size: 1.6rem; font-weight: 700; color: var(--acid); line-height: 1; }
+.receipt__desc { font-size: .78rem; color: var(--text-dim); }
+
+/* Launch reason */
+.launch-reason {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: rgba(200,255,0,.05); border: 1px solid rgba(200,255,0,.15);
+  border-radius: 12px; padding: 14px 16px; margin-top: 16px;
+}
+.launch-reason svg { flex-shrink: 0; margin-top: 2px; }
+.launch-reason p { font-size: .84rem; color: var(--text-dim); line-height: 1.55; margin: 0; }
+
 /* OFFER */
 @property --beam-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
 .offer-card::before, .cta-card::before {
