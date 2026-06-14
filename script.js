@@ -301,24 +301,33 @@ document.addEventListener('DOMContentLoaded', () => {
   ========================================================== */
   const peekCta = document.querySelector('#peekCta');
   if (peekCta) {
-    // Клик по самому блоку расширяет его (не ссылку)
-    peekCta.addEventListener('click', e => {
-      if (!e.target.closest('a')) peekCta.classList.toggle('expanded');
-    });
     // Скрыть/показать у финального CTA
     const ctaSection = document.querySelector('#cta');
     if (ctaSection) {
       ScrollTrigger.create({
-        trigger: ctaSection, start: 'top 75%',
-        onEnter:     () => gsap.to(peekCta, { opacity: 0, pointerEvents: 'none', duration: .4 }),
-        onLeaveBack: () => gsap.to(peekCta, { opacity: 1, pointerEvents: 'auto', duration: .4 }),
+        trigger: ctaSection, start: 'top 80%',
+        onEnter:     () => gsap.to(peekCta, { y: 120, opacity: 0, pointerEvents: 'none', duration: .4 }),
+        onLeaveBack: () => gsap.to(peekCta, { y: 0, opacity: 1, pointerEvents: 'auto', duration: .4 }),
       });
     }
-    // Появляется через 4 секунды после загрузки
-    gsap.set(peekCta, { opacity: 0, pointerEvents: 'none' });
+    // Появляется через 5 секунд, едет снизу
     setTimeout(() => {
-      gsap.to(peekCta, { opacity: 1, pointerEvents: 'auto', duration: .6, ease: 'power2.out' });
-    }, 4000);
+      gsap.to(peekCta, { y: 0, opacity: 1, pointerEvents: 'auto', duration: .7, ease: 'power3.out' });
+    }, 5000);
+  }
+
+  /* ==========================================================
+     19. MOTION PREVIEW — масштаб iframe под контейнер
+  ========================================================== */
+  const motionFrame = document.querySelector('.motion-preview__frame');
+  if (motionFrame) {
+    const scaleIframe = () => {
+      const w = motionFrame.offsetWidth;
+      const scale = w / 1080;
+      motionFrame.querySelector('iframe').style.transform = `scale(${scale})`;
+    };
+    scaleIframe();
+    new ResizeObserver(scaleIframe).observe(motionFrame);
   }
 
   /* ==========================================================
