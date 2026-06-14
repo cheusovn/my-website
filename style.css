@@ -172,8 +172,8 @@ section { padding: 120px 0; position: relative; }
 }
 .logo { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .04em; }
 .logo span { color: var(--acid); }
-.channel-btn { display: inline-flex; flex-direction: row; align-items: center; gap: 9px; padding: 13px 26px; font-size: .9rem; font-weight: 800; letter-spacing: .01em; white-space: nowrap; flex-shrink: 0; }
-.channel-btn .tg-ico { width: 20px; height: 20px; flex-shrink: 0; }
+.channel-btn { display: inline-flex; flex-direction: row; align-items: center; gap: 10px; padding: 12px 22px; font-size: .85rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
+.channel-btn .tg-ico { width: 22px; height: 22px; flex-shrink: 0; }
 
 /* BUTTONS */
 .btn {
@@ -865,9 +865,8 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
   .sticky-cta { display: block; }
   .footer { padding-bottom: 130px; }
   .header .btn--small { font-size: .7rem; padding: 9px 16px; }
-  .channel-btn { padding: 10px; gap: 0; border-radius: 50%; width: 42px; height: 42px; flex-shrink: 0; }
-  .channel-btn .tg-ico { width: 20px; height: 20px; }
-  .channel-btn .tg-label { display: none; }
+  .channel-btn { padding: 10px 16px; gap: 8px; font-size: .75rem; }
+  .channel-btn .tg-ico { width: 18px; height: 18px; }
   .logo { font-size: .82rem; }
   .steps__grid { grid-template-columns: 1fr; gap: 14px; }
   .step__connector { transform: rotate(90deg); display: flex; justify-content: center; margin: -4px 0; }
