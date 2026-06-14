@@ -297,23 +297,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================
-     17. PEEK CTA — появляется через 4 сек, прячется у финального CTA
+     17. PEEK CTA — появляется после ухода с первого экрана, прячется у финального CTA
   ========================================================== */
   const peekCta = document.querySelector('#peekCta');
   if (peekCta) {
-    // Скрыть/показать у финального CTA
+    gsap.set(peekCta, { xPercent: -50 });
+    const showPeek = () => gsap.to(peekCta, { xPercent: -50, y: 0, opacity: 1, pointerEvents: 'auto', duration: .6, ease: 'power3.out' });
+    const hidePeek = () => gsap.to(peekCta, { xPercent: -50, y: 120, opacity: 0, pointerEvents: 'none', duration: .4 });
+
+    // Показать только когда пользователь ушёл ниже hero (чтобы не наезжать на главную кнопку)
+    const heroSection = document.querySelector('.hero');
+    if (heroSection) {
+      ScrollTrigger.create({
+        trigger: heroSection, start: 'bottom 92%',
+        onEnter: showPeek,
+        onLeaveBack: hidePeek,
+      });
+    }
+    // Скрыть у финального CTA, чтобы не дублировать
     const ctaSection = document.querySelector('#cta');
     if (ctaSection) {
       ScrollTrigger.create({
-        trigger: ctaSection, start: 'top 80%',
-        onEnter:     () => gsap.to(peekCta, { y: 120, opacity: 0, pointerEvents: 'none', duration: .4 }),
-        onLeaveBack: () => gsap.to(peekCta, { y: 0, opacity: 1, pointerEvents: 'auto', duration: .4 }),
+        trigger: ctaSection, start: 'top 85%',
+        onEnter: hidePeek,
+        onLeaveBack: showPeek,
       });
     }
-    // Появляется через 5 секунд, едет снизу
-    setTimeout(() => {
-      gsap.to(peekCta, { y: 0, opacity: 1, pointerEvents: 'auto', duration: .7, ease: 'power3.out' });
-    }, 5000);
   }
 
   /* ==========================================================

@@ -387,14 +387,13 @@ section { padding: 120px 0; position: relative; }
 /* BOTTOM BAR CTA — компактная фиксированная панель */
 .peek-cta {
   position: fixed; bottom: 16px; left: 50%; z-index: 46;
-  transform: translateX(-50%) translateY(120px);
+  transform: translateX(-50%) translateY(120px); opacity: 0;
   width: min(480px, calc(100% - 32px));
   background: rgba(7,9,5,.92); border: 1px solid var(--border-acid);
   border-radius: 999px; padding: 8px 8px 8px 24px;
   backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 8px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(200,255,0,.15);
   display: flex; align-items: center; gap: 12px;
-  transition: transform .5s var(--ease-out), opacity .5s var(--ease-out);
 }
 .peek-cta__handle { display: none; }
 .peek-cta__label { display: none; }
@@ -773,7 +772,8 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
 }
 .btn--outline span { color: var(--text-dim); }
 
-.channel-btn { flex-direction: row !important; align-items: center; gap: 10px; padding: 12px 22px; font-size: .85rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
+.channel-btn { flex-direction: row !important; flex-wrap: nowrap !important; align-items: center; gap: 10px; padding: 12px 22px; font-size: .85rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
+.channel-btn .tg-label { width: auto !important; }
 .channel-btn .tg-ico { width: 22px; height: 22px; flex-shrink: 0; order: 2; }
 .channel-btn .tg-label { order: 1; }
 
