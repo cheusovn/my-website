@@ -802,8 +802,9 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
   .sticky-cta { display: block; }
   .footer { padding-bottom: 130px; }
   .header .btn--small { font-size: .7rem; padding: 9px 16px; }
-  .channel-btn { font-size: .72rem; padding: 11px 16px; gap: 7px; }
-  .channel-btn .tg-ico { width: 16px; height: 16px; }
+  .channel-btn { padding: 10px; gap: 0; border-radius: 50%; width: 42px; height: 42px; flex-shrink: 0; }
+  .channel-btn .tg-ico { width: 20px; height: 20px; }
+  .channel-btn .tg-label { display: none; }
   .logo { font-size: .82rem; }
   .steps__grid { grid-template-columns: 1fr; gap: 14px; }
   .step__connector { transform: rotate(90deg); display: flex; justify-content: center; margin: -4px 0; }
