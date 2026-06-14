@@ -297,16 +297,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================================
-     17. STICKY CTA — прячется, когда виден финальный CTA
+     17. PEEK CTA — появляется через 4 сек, прячется у финального CTA
   ========================================================== */
-  const ctaSection = document.querySelector('#cta');
-  const stickyCta  = document.querySelector('.sticky-cta');
-  if (ctaSection && stickyCta) {
-    ScrollTrigger.create({
-      trigger: ctaSection, start: 'top 70%',
-      onEnter:     () => gsap.to(stickyCta, { opacity: 0, pointerEvents: 'none', duration: .3 }),
-      onLeaveBack: () => gsap.to(stickyCta, { opacity: 1, pointerEvents: 'auto', duration: .3 }),
+  const peekCta = document.querySelector('#peekCta');
+  if (peekCta) {
+    // Клик по самому блоку расширяет его (не ссылку)
+    peekCta.addEventListener('click', e => {
+      if (!e.target.closest('a')) peekCta.classList.toggle('expanded');
     });
+    // Скрыть/показать у финального CTA
+    const ctaSection = document.querySelector('#cta');
+    if (ctaSection) {
+      ScrollTrigger.create({
+        trigger: ctaSection, start: 'top 75%',
+        onEnter:     () => gsap.to(peekCta, { opacity: 0, pointerEvents: 'none', duration: .4 }),
+        onLeaveBack: () => gsap.to(peekCta, { opacity: 1, pointerEvents: 'auto', duration: .4 }),
+      });
+    }
+    // Появляется через 4 секунды после загрузки
+    gsap.set(peekCta, { opacity: 0, pointerEvents: 'none' });
+    setTimeout(() => {
+      gsap.to(peekCta, { opacity: 1, pointerEvents: 'auto', duration: .6, ease: 'power2.out' });
+    }, 4000);
   }
 
   /* ==========================================================
