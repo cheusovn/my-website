@@ -172,8 +172,6 @@ section { padding: 120px 0; position: relative; }
 }
 .logo { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .04em; }
 .logo span { color: var(--acid); }
-.channel-btn { display: inline-flex; flex-direction: row; align-items: center; gap: 10px; padding: 12px 22px; font-size: .85rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
-.channel-btn .tg-ico { width: 22px; height: 22px; flex-shrink: 0; }
 
 /* BUTTONS */
 .btn {
@@ -749,6 +747,10 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
   filter: none;
 }
 .btn--outline span { color: var(--text-dim); }
+
+.channel-btn { flex-direction: row !important; align-items: center; gap: 10px; padding: 12px 22px; font-size: .85rem; font-weight: 800; letter-spacing: .04em; white-space: nowrap; flex-shrink: 0; }
+.channel-btn .tg-ico { width: 22px; height: 22px; flex-shrink: 0; order: 2; }
+.channel-btn .tg-label { order: 1; }
 
 /* Секция «Два способа начать» */
 .two-paths { padding: 80px 0 64px; }
