@@ -211,6 +211,7 @@ section { padding: 120px 0; position: relative; }
 }
 .btn--ghost::after { display: none; }
 .btn span { font-family: var(--font-body); font-weight: 600; font-size: .74rem; opacity: .72; letter-spacing: 0; }
+.btn-tg { display: block; flex-shrink: 0; opacity: .85; }
 .btn--small { padding: 10px 22px; font-size: .8rem; }
 .btn--big   { padding: 20px 44px; font-size: 1.02rem; }
 .btn--xl    { padding: 24px 54px; font-size: 1.12rem; }
@@ -388,7 +389,7 @@ section { padding: 120px 0; position: relative; }
 /* PEEK CTA — popup наполовину снизу */
 .peek-cta {
   position: fixed; bottom: 0; left: 50%; z-index: 46;
-  transform: translateX(-50%) translateY(52%);
+  transform: translateX(-50%) translateY(68%);
   width: min(420px, calc(100% - 32px));
   background: rgba(10,13,7,.96); border: 1px solid var(--border-acid);
   border-radius: 24px 24px 0 0; padding: 20px 28px 36px;
@@ -404,7 +405,7 @@ section { padding: 120px 0; position: relative; }
   transition: background .3s;
 }
 .peek-cta:hover .peek-cta__handle { background: var(--acid); }
-.peek-cta__label { font-size: .78rem; font-weight: 700; color: var(--acid); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 10px; text-align: center; }
+.peek-cta__label { display: none; }
 .peek-cta__btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%; padding: 16px 24px; border-radius: 999px;
