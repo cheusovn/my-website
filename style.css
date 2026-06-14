@@ -172,7 +172,7 @@ section { padding: 120px 0; position: relative; }
 }
 .logo { font-family: var(--font-display); font-weight: 900; font-size: 1rem; letter-spacing: .04em; }
 .logo span { color: var(--acid); }
-.channel-btn { display: inline-flex; align-items: center; gap: 9px; padding: 13px 26px; font-size: .9rem; font-weight: 800; letter-spacing: .01em; white-space: nowrap; }
+.channel-btn { display: inline-flex; flex-direction: row; align-items: center; gap: 9px; padding: 13px 26px; font-size: .9rem; font-weight: 800; letter-spacing: .01em; white-space: nowrap; flex-shrink: 0; }
 .channel-btn .tg-ico { width: 20px; height: 20px; flex-shrink: 0; }
 
 /* BUTTONS */
@@ -359,13 +359,13 @@ section { padding: 120px 0; position: relative; }
   background: linear-gradient(160deg, var(--acid-dim), var(--surface) 70%);
   border-color: var(--border-acid);
 }
-.pain-card--accent .pain-card__icon { font-size: 3rem; margin-bottom: 0; flex-shrink: 0; }
+.pain-card--accent .pain-card__icon { margin-bottom: 0; flex-shrink: 0; }
 .pain-card--accent b { color: var(--acid); text-shadow: 0 0 28px var(--acid-glow); margin-bottom: 0; white-space: nowrap; flex-shrink: 0; }
 .pain-card--accent p { flex: 1; }
 .pain-card p { color: var(--text-dim); font-size: .95rem; }
 .pain-card strong { color: var(--text); }
 .pain-card__icon {
-  font-size: 1.4rem; display: inline-flex; margin-bottom: 14px; line-height: 1;
+  display: inline-flex; margin-bottom: 14px;
   width: 46px; height: 46px; align-items: center; justify-content: center;
   border-radius: 12px; background: var(--acid-dim); border: 1px solid var(--border-acid);
   transition: transform .3s var(--ease-out), background .3s;
@@ -571,7 +571,7 @@ section { padding: 120px 0; position: relative; }
 }
 
 /* MONOLINE ICONS — единый сдержанный стиль, без эмодзи */
-.ico { width: 1em; height: 1em; display: block; stroke: var(--acid); stroke-width: 1.6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ico { width: 24px; height: 24px; display: block; stroke: var(--acid); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
 
 /* FOCUS — видимый фокус для доступности (WCAG 2.4.7) */
 :focus-visible { outline: 2px solid var(--acid); outline-offset: 3px; border-radius: 4px; }
@@ -596,7 +596,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
 .step::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(200,255,0,.06), transparent 60%); opacity: 0; transition: opacity .3s; }
 .step:hover { border-color: var(--border-acid); transform: translateY(-6px); box-shadow: 0 20px 60px -20px var(--acid-glow); }
 .step:hover::after { opacity: 1; }
-.step__icon { font-size: 2rem; display: inline-flex; margin: 0 auto 16px; line-height: 1; width: 60px; height: 60px; align-items: center; justify-content: center; border-radius: 16px; background: var(--acid-dim); border: 1px solid var(--border-acid); transition: transform .35s var(--ease-out), background .35s; }
+.step__icon { display: inline-flex; margin: 0 auto 16px; width: 60px; height: 60px; align-items: center; justify-content: center; border-radius: 16px; background: var(--acid-dim); border: 1px solid var(--border-acid); transition: transform .35s var(--ease-out), background .35s; }
 .step:hover .step__icon { transform: translateY(-2px) scale(1.06); background: rgba(200,255,0,.16); }
 .step h4 { font-size: .98rem; margin-bottom: 10px; }
 .step p { color: var(--text-dim); font-size: .88rem; line-height: 1.55; }
@@ -638,7 +638,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
 .footer__link:hover { color: var(--text-dim); }
 
 /* AUDIENCE ICONS */
-.audience__icon { font-size: 1.5rem; margin-bottom: 14px; display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; border-radius: 13px; background: var(--acid-dim); border: 1px solid var(--border-acid); transition: background .3s, transform .3s var(--ease-out); }
+.audience__icon { margin-bottom: 14px; display: inline-flex; width: 48px; height: 48px; align-items: center; justify-content: center; border-radius: 13px; background: var(--acid-dim); border: 1px solid var(--border-acid); transition: background .3s, transform .3s var(--ease-out); }
 .audience__item:hover .audience__icon { background: rgba(200,255,0,.16); transform: translateY(-2px); }
 
 /* ════════════════════════════════════════
