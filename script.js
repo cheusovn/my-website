@@ -511,74 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================
-     18. SOCIAL PROOF TOAST NOTIFICATIONS
-  ========================================================== */
-  const toastContainer = document.getElementById('toastContainer');
-  if (toastContainer && !reduceMotion) {
-    // Честный social proof: агрегированные факты о курсе, без выдуманных имён,
-    // городов и фейкового «N минут назад» — то, что можно подтвердить.
-    const toastData = [
-      { icon: '🎓', title: '347 выпускников',      action: 'прошли курс за последние полгода' },
-      { icon: '🔥', title: 'VIP с куратором',       action: 'выбирают чаще всего — 7 из 10' },
-      { icon: '✅', title: '97% учеников',          action: 'создают первое видео за 7 дней' },
-      { icon: '🎁', title: 'Первые 2 дня',          action: 'открыты бесплатно и без карты' },
-      { icon: '💬', title: 'Поддержка 24/7',        action: 'помогает на всём пути обучения' },
-      { icon: '🤖', title: '10+ нейросетей',        action: 'разбираем по шагам с нуля' },
-    ];
-
-    let toastIndex = Math.floor(Math.random() * toastData.length);
-    let activeToast = null;
-
-    const showToast = () => {
-      if (activeToast) {
-        activeToast.classList.remove('toast--show');
-        activeToast.classList.add('toast--hide');
-        setTimeout(() => { if (activeToast) activeToast.remove(); }, 500);
-      }
-
-      const data = toastData[toastIndex % toastData.length];
-      toastIndex++;
-
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-
-      toast.innerHTML = `
-        <div class="toast__avatar">${data.icon}</div>
-        <div class="toast__body">
-          <div class="toast__name">${data.title}</div>
-          <div class="toast__action">${data.action}</div>
-        </div>
-      `;
-
-      toastContainer.appendChild(toast);
-      activeToast = toast;
-
-      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.add('toast--show')));
-
-      const hideTimeout = setTimeout(() => {
-        toast.classList.remove('toast--show');
-        toast.classList.add('toast--hide');
-        setTimeout(() => { if (toast.parentNode) toast.remove(); if (activeToast === toast) activeToast = null; }, 500);
-      }, 5500);
-
-      toast.addEventListener('click', () => {
-        clearTimeout(hideTimeout);
-        toast.classList.remove('toast--show');
-        toast.classList.add('toast--hide');
-        setTimeout(() => { if (toast.parentNode) toast.remove(); if (activeToast === toast) activeToast = null; }, 500);
-      });
-    };
-
-    const scheduleNext = () => {
-      const delay = Math.random() * 18000 + 22000;
-      setTimeout(() => { showToast(); scheduleNext(); }, delay);
-    };
-
-    setTimeout(() => { showToast(); scheduleNext(); }, 5000);
-  }
-
-  /* ==========================================================
-     20. VALUE STACK — строки появляются по очереди (нет .reveal — анимируем здесь)
+     18. VALUE STACK — строки появляются по очереди (нет .reveal — анимируем здесь)
   ========================================================== */
   gsap.utils.toArray('.value-stack__row, .value-stack__total, .value-stack__free').forEach((row, i) => {
     gsap.fromTo(row,
