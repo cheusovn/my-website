@@ -29,7 +29,8 @@ Type: Unbounded (display) · Manrope (body) · JetBrains Mono (numbers)
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+/* Скролл отдан Lenis. Нативный smooth конфликтует с Lenis → дёрганый/«бесконечный» скролл. */
+html { scroll-behavior: auto; }
 body {
   font-family: var(--font-body);
   background: var(--bg-base);

@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   gsap.registerPlugin(ScrollTrigger);
 
+  // Видео, картинки и шрифты догружаются ПОСЛЕ DOMContentLoaded и меняют высоту
+  // страницы. Без пересчёта ScrollTrigger держит старые координаты → точки
+  // срабатывания «уезжают», и скролл выглядит бесконечным. Пересчитываем.
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
   const isMobile = window.innerWidth < 720;
@@ -154,38 +162,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const depth = Array.isArray(y) ? y[i % y.length] : y;
         gsap.to(el, {
           y: depth, ease: 'none',
-          scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub },
+          scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub, invalidateOnRefresh: true },
         });
       });
     };
 
-    gsap.to('.hero__frame', {
-      y: -70, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2 },
-    });
-    gsap.to('.hero__content', {
-      y: -30, ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2.5 },
-    });
-
-    parallax('.stats-strip', -36, 2);
-    parallax('.pain-card',  [-22, -52, -82]);
-    parallax('.shift-col--before', -28, 2);
-    parallax('.shift-col--after',  -64, 2);
-    parallax('.author__visual', -46, 2);
-    parallax('.review', [-24, -56, -36]);
-    parallax('.audience__item', [-16, -42, -28, -36, -20, -48]);
-    parallax('.offer-card .offer__list', -20, 2.5);
-    parallax('.cta-card h2', -18, 2.5);
-
-    // Фоновые блобы — глубинный параллакс на весь скролл
-    [['.aurora-blob--1', -160, 3], ['.aurora-blob--2', -110, 2],
-     ['.aurora-blob--3', -200, 2.5], ['.aurora-blob--4', -90, 3.5]].forEach(([sel, y, scrub]) => {
-      gsap.to(sel, {
-        y, ease: 'none',
-        scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom top', scrub },
+    // Тяжёлый scrub-параллакс — только на десктопе. На мобильных он сатурирует
+    // главный поток (видео + blur-слои + iframe) и вызывает фризы.
+    if (!isMobile) {
+      gsap.to('.hero__frame', {
+        y: -70, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2, invalidateOnRefresh: true },
       });
-    });
+      gsap.to('.hero__content', {
+        y: -30, ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 2.5, invalidateOnRefresh: true },
+      });
+
+      parallax('.stats-strip', -36, 2);
+      parallax('.pain-card',  [-22, -52, -82]);
+      parallax('.shift-col--before', -28, 2);
+      parallax('.shift-col--after',  -64, 2);
+      parallax('.author__visual', -46, 2);
+      parallax('.review', [-24, -56, -36]);
+      parallax('.audience__item', [-16, -42, -28, -36, -20, -48]);
+      parallax('.offer-card .offer__list', -20, 2.5);
+      parallax('.cta-card h2', -18, 2.5);
+
+      // Фоновые блобы — глубинный параллакс на весь скролл
+      [['.aurora-blob--1', -160, 3], ['.aurora-blob--2', -110, 2],
+       ['.aurora-blob--3', -200, 2.5], ['.aurora-blob--4', -90, 3.5]].forEach(([sel, y, scrub]) => {
+        gsap.to(sel, {
+          y, ease: 'none',
+          scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom top', scrub, invalidateOnRefresh: true },
+        });
+      });
+    }
 
     /* ==========================================================
        10. SCROLL PROGRESS BAR (кислотная линия сверху)
