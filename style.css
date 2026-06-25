@@ -1099,6 +1099,22 @@ a:focus-visible, button:focus-visible, .btn:focus-visible, .faq__question:focus-
   .pill--viewers { display: none; }
   .path-card { padding: 28px 22px; }
   .hero__cta-alt { font-size: .82rem; }
+
+  /* Peek-CTA: на узких экранах текст «2 дня бесплатно · без карты»
+     не помещался в одну строку и обрезался многоточием. Освобождаем место
+     (меньше паддинги) и разрешаем перенос до 2 строк, чтобы ключевое слово
+     «бесплатно» не пропадало. */
+  .peek-cta { padding: 8px 8px 8px 18px; gap: 10px; }
+  .peek-cta__text {
+    white-space: normal;
+    font-size: .8rem;
+    line-height: 1.25;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .peek-cta__btn { padding: 12px 16px; font-size: .8rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
