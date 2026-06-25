@@ -138,12 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.fromTo(el,
           { y: 50, opacity: 0, scale: .97 },
           { y: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out', scrollTrigger: st });
-      } else if (el.classList.contains('review') || el.classList.contains('pain-card')) {
+      } else if (el.classList.contains('review') || el.classList.contains('pain-card') || el.classList.contains('compare-card')) {
         gsap.fromTo(el,
           { y: 56, opacity: 0, scale: .94, rotateZ: gsap.utils.random(-2, 2) },
           { y: 0, opacity: 1, scale: 1, rotateZ: 0, duration: .9, ease: 'power3.out', scrollTrigger: st });
-      } else if (el.classList.contains('shift-col')) {
-        const fromLeft = el.classList.contains('shift-col--before');
+      } else if (el.classList.contains('shift-col') || el.classList.contains('honest-col')) {
+        const fromLeft = el.classList.contains('shift-col--before') || el.classList.contains('honest-col--no');
         gsap.fromTo(el,
           { x: fromLeft ? -64 : 64, opacity: 0 },
           { x: 0, opacity: 1, duration: .95, ease: 'power3.out', scrollTrigger: st });
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
        13. 3D CARD TILT + hero-кадр следует за мышью
     ========================================================== */
     if (isPointer) {
-      document.querySelectorAll('.audience__item, .pain-card, .review').forEach(card => {
+      document.querySelectorAll('.audience__item, .pain-card, .review, .compare-card').forEach(card => {
         card.addEventListener('mousemove', e => {
           const r = card.getBoundingClientRect();
           const x = (e.clientX - r.left) / r.width  - .5;
